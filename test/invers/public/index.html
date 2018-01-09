@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invers</title>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous">
+    </script>
+    <script type="module">
+      import OpenXum from "./index.mjs";
+
+      window.OpenXum = OpenXum;
+    </script>
+</head>
+<body>
+<div class="page">
+<div class="container" id="main"></div>
+</div>
+<script>
+  $(document).ready(function () {
+    new OpenXum.GamePage(OpenXum.Invers, 'invers', 0, 0, 1, 'gui', '-1', 0, '', '', '', false);
+  });
+</script>
+</body>
+</html>
