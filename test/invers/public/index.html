@@ -8,6 +8,14 @@
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous">
     </script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
+          integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
+          crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"
+            integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
+            crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="openxum.css">
     <script type="module">
       import OpenXum from "./lib/index.mjs";
 
@@ -21,7 +29,7 @@
 <script>
   $(document).ready(function () {
     new OpenXum.GamePage(OpenXum.Invers, 'invers', OpenXum.Invers.Color.RED, OpenXum.Invers.Color.RED,
-      OpenXum.Invers.Color.YELLOW, OpenXum.GameType.GUI, '-1', OpenXum.Invers.GameType.STANDARD, '', '', '', false);
+      OpenXum.Invers.Color.YELLOW, OpenXum.GameType.LOCAL_AI, '-1', OpenXum.Invers.GameType.STANDARD, '', '', '', false);
   });
 </script>
 </body>

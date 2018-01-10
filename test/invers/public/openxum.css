@@ -1,0 +1,45 @@
+body {
+    background: #ebebeb;
+    margin: 0;
+    min-height: 100%;
+    position: relative;
+}
+
+table tr td th {
+    background: #fff;
+    padding: 6px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid #ddd;
+}
+
+table tr:nth-child(2n) td {
+    background: #fffa86;
+}
+
+.vertical-offset-100 {
+    padding-top:10px;
+}
+
+.modal .modal-header {
+    border-bottom: none;
+    position: relative;
+}
+.modal .modal-header .btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 0;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.modal .modal-footer {
+    border-top: none;
+    padding: 0;
+}
+.modal .modal-footer .btn-group > .btn:first-child {
+    border-bottom-left-radius: 0;
+}
+.modal .modal-footer .btn-group > .btn:last-child {
+    border-top-right-radius: 0;
+}
