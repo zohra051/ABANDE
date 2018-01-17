@@ -5,7 +5,7 @@ let crypto = require('crypto');
 
 const directory = './data/';
 
-let OpenXum = require('../../../openxum');
+let OpenXum = require('../../../ws/openxum');
 
 exports = module.exports = function () {
   return {
