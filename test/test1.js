@@ -2,19 +2,17 @@ let OpenXum = require('./openxum');
 let RestWebServicePlayer = require('./rest_web_service_player');
 
 let e = new OpenXum.Invers.Engine(OpenXum.Invers.GameType.STANDARD, OpenXum.Invers.Color.RED);
-let p1 = new RestWebServicePlayer(OpenXum.Invers.Color.RED, e, 'toto');
+let p1 = new RestWebServicePlayer(OpenXum.Invers.Color.RED, e, 'toto', 'http://127.0.0.1:3000');
 let p2 = new OpenXum.Invers.RandomPlayer(OpenXum.Invers.Color.YELLOW, e);
 
-p1.set_url('http://127.0.0.1:3000');
-
 let start = new Promise((resolve, reject) => {
-  p1.start(resolve);
+  p1.start(resolve, reject, e.current_color());
 });
 
 let play = (finish) => {
 
   (new Promise((resolve, reject) => {
-    p1.move(resolve);
+    p1.move(resolve, reject);
   })).then((data) => {
     let move = new OpenXum.Invers.Move(data.color, data.letter, data.number, data.position);
 
@@ -28,21 +26,21 @@ let play = (finish) => {
 
       e.move(move);
       (new Promise((resolve, reject) => {
-        p1.move(resolve, move);
+        p1.move(resolve, reject, move);
       })).then(() => {
         if (!e.is_finished()) {
           play(finish);
         } else {
           finish();
         }
-      }).catch(() => {
-        console.log("FAILED");
+      }).catch((error) => {
+        console.log(error);
       });
     } else {
       finish();
     }
-  }).catch(() => {
-    console.log("FAILED");
+  }).catch((error) => {
+    console.log(error);
   });
 
 };
@@ -53,4 +51,6 @@ start.then(() => {
     console.log('FINISH');
   });
 
+}).catch((error) => {
+  console.log(error);
 });

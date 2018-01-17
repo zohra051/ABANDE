@@ -3,33 +3,16 @@
 let request = require("request");
 
 class RestWebServicePlayer {
-  constructor(c, e, l) {
+  constructor(c, e, l, u) {
     this._color = c;
     this._engine = e;
     this._login = l;
-    this._start = false;
+    this._url = u;
     this._id = -1;
-    this._url = null;
-    this._manager = null;
   }
 
   // public methods
-  confirm() {
-    return true;
-  }
-
-  is_ready() {
-    return this._id !== -1;
-  }
-
-  is_remote() {
-    return true;
-  }
-
-  move(resolve, move) {
-    if (!this._start) {
-      this._start = true;
-    }
+  move(resolve, reject, move) {
     if (move) {
       request({
         method: 'PUT',
@@ -38,11 +21,11 @@ class RestWebServicePlayer {
           'content-type': 'application/json',
           'cache-control': 'no-cache'
         },
-        json: {id: this._id, game: 'invers', move: JSON.stringify(move.to_object())},
+        json: {id: this._id, game: this._engine.get_name(), move: JSON.stringify(move.to_object())},
         xhrFields: {withCredentials: true}
       }, (error, response, data) => {
         if (error) {
-          throw new Error(error);
+          reject(error);
         }
         resolve(data);
       });
@@ -54,11 +37,11 @@ class RestWebServicePlayer {
           'content-type': 'application/json',
           'cache-control': 'no-cache'
         },
-        json: {id: this._id, game: 'invers', color: this._color},
+        json: {id: this._id, game: this._engine.get_name(), color: this._color},
         xhrFields: {withCredentials: true}
       }, (error, response, data) => {
         if (error) {
-          throw new Error(error);
+          reject(error);
         }
         resolve(data);
       });
@@ -66,19 +49,7 @@ class RestWebServicePlayer {
     return null;
   }
 
-  reinit(e) {
-    this.start();
-  }
-
-  set_manager(m) {
-    this._manager = m;
-  }
-
-  set_url(u) {
-    this._url = u;
-  }
-
-  start(resolve) {
+  start(resolve, reject, color) {
     request({
       method: 'POST',
       url: this._url + '/openxum/new/',
@@ -86,14 +57,15 @@ class RestWebServicePlayer {
         'content-type': 'application/json',
         'cache-control': 'no-cache'
       },
-      json: {game: 'invers', color: 0, login: this._login},
+      json: {game: this._engine.get_name(), color: color, login: this._login},
       xhrFields: {withCredentials: true}
     }, (error, response, data) => {
       if (error) {
-        throw new Error(error);
+        reject(error);
+      } else {
+        this._id = data.id;
+        resolve();
       }
-      this._id = data.id;
-      resolve();
     });
   }
 }
