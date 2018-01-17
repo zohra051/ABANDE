@@ -6,7 +6,7 @@ let p1 = new RestWebServicePlayer(OpenXum.Invers.Color.RED, e, 'toto', 'http://1
 let p2 = new OpenXum.Invers.RandomPlayer(OpenXum.Invers.Color.YELLOW, e);
 
 let start = new Promise((resolve, reject) => {
-  p1.start(resolve, reject, e.current_color());
+  p1.start(resolve, reject);
 });
 
 let play = (finish) => {
@@ -48,7 +48,7 @@ let play = (finish) => {
 start.then(() => {
 
   play(() => {
-    console.log('FINISH');
+    console.log("Winner is " + (e.winner_is() === OpenXum.Invers.Color.RED ? "red" : "yellow"));
   });
 
 }).catch((error) => {

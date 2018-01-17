@@ -49,7 +49,7 @@ class RestWebServicePlayer {
     return null;
   }
 
-  start(resolve, reject, color) {
+  start(resolve, reject, player_color) {
     request({
       method: 'POST',
       url: this._url + '/openxum/new/',
@@ -57,7 +57,7 @@ class RestWebServicePlayer {
         'content-type': 'application/json',
         'cache-control': 'no-cache'
       },
-      json: {game: this._engine.get_name(), color: color, login: this._login},
+      json: {game: this._engine.get_name(), type: this._engine.get_type(), color: this._engine.current_color(), player_color: this._color, login: this._login},
       xhrFields: {withCredentials: true}
     }, (error, response, data) => {
       if (error) {

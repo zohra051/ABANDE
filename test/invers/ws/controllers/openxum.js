@@ -3,7 +3,7 @@
 let jsonfile = require('jsonfile');
 let crypto = require('crypto');
 
-const file = './data/';
+const directory = './data/';
 
 let OpenXum = require('../../../openxum');
 
@@ -12,32 +12,33 @@ exports = module.exports = function () {
     // New move of opponent player
     move: function (req, res) {
       const token = req.body.id;
+      const file_name = directory + req.body.game + '_' + token + '.json';
       let data = JSON.parse(req.body.move);
-      let move = new OpenXum.Invers.Move(data.color, data.letter, data.number, data.position);
-      let obj = jsonfile.readFileSync(file + req.body.game + '_' + token + '.json');
+      let obj = jsonfile.readFileSync(file_name);
 
-      obj.push(move.to_object());
-      jsonfile.writeFileSync(file + req.body.game + '_' + token + '.json', obj);
+      obj.moves.push(data);
+      jsonfile.writeFileSync(file_name, obj);
       res.status(200).json({});
     },
 
     // Next move of player
     next_move: function (req, res) {
       const token = req.body.id;
-      let engine = new OpenXum.Invers.Engine(OpenXum.Invers.GameType.STANDARD,
-          OpenXum.Invers.Color.RED);
-      let player = new OpenXum.MCTSPlayer(OpenXum.Invers.Color.RED, engine);
-      let obj = jsonfile.readFileSync(file + req.body.game + '_' + token + '.json');
+      const file_name = directory + req.body.game + '_' + token + '.json';
+      let obj = jsonfile.readFileSync(file_name);
+      let engine = new OpenXum[req.body.game].Engine(obj.type, obj.color);
+      let player = new OpenXum.MCTSPlayer(obj.player_color, engine);
 
-      for (let i = 0; i < obj.length; ++i) {
-        engine.move(new OpenXum.Invers.Move(obj[i].color, obj[i].letter,
-          obj[i].number, obj[i].position));
+      for (let i = 0; i < obj.moves.length; ++i) {
+        let move = obj.moves[i];
+
+        engine.apply_move(move);
       }
 
       let move = player.move();
 
-      obj.push(move.to_object());
-      jsonfile.writeFileSync(file + req.body.game + '_' + token + '.json', obj);
+      obj.moves.push(move.to_object());
+      jsonfile.writeFileSync(file_name, obj);
       res.status(200).json(move.to_object());
     },
 
@@ -46,8 +47,9 @@ exports = module.exports = function () {
 
       crypto.randomBytes(32, function(err, buffer) {
         const token = buffer.toString('hex');
+        const file_name = directory + req.body.game + '_' + token + '.json';
 
-        jsonfile.writeFileSync(file + req.body.game + '_' + token + '.json', []);
+        jsonfile.writeFileSync(file_name, {game: req.body.game, type: req.body.type, color: req.body.color, player_color: req.body.player_color, moves: []});
         res.status(200).json({id: token});
       });
     }
