@@ -1,0 +1,16 @@
+{
+  "name": "openxum-ws-node-test",
+  "version": "1.0.0",
+  "description": "Tests of NodeJS Web service for OpenXum",
+  "main": "test_ws.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node test_ws.js"
+  },
+  "author": "Eric RAMAT",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "@std/esm": "^0.19.1",
+    "request": "^2.83.0"
+  }
+}
