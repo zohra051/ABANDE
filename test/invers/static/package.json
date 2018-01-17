@@ -1,0 +1,16 @@
+{
+  "name": "openxum-static",
+  "version": "1.0.0",
+  "description": "NodeJS application for OpenXum",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node -r @std/esm app.js"
+  },
+  "author": "Eric RAMAT",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "@std/esm": "^0.19.1",
+    "express": "^4.9.0"
+  }
+}
