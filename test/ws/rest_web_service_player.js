@@ -22,8 +22,8 @@ class RestWebServicePlayer {
           'cache-control': 'no-cache'
         },
         json: {
-          id: this._id, game:
-            this._engine.get_name(),
+          id: this._id,
+          game: this._engine.get_name(),
           move: JSON.stringify(move.to_object())
         },
         xhrFields: {withCredentials: true}
