@@ -29,11 +29,7 @@ exports = module.exports = function () {
       let engine = new OpenXum[req.body.game].Engine(obj.type, obj.color);
       let player = new OpenXum.MCTSPlayer(obj.player_color, engine);
 
-      for (let i = 0; i < obj.moves.length; ++i) {
-        let move = obj.moves[i];
-
-        engine.apply_move(move);
-      }
+      engine.apply_moves(obj.moves);
 
       let move = player.move();
 
@@ -49,7 +45,13 @@ exports = module.exports = function () {
         const token = buffer.toString('hex');
         const file_name = directory + req.body.game + '_' + token + '.json';
 
-        jsonfile.writeFileSync(file_name, {game: req.body.game, type: req.body.type, color: req.body.color, player_color: req.body.player_color, moves: []});
+        jsonfile.writeFileSync(file_name, {
+          game: req.body.game,
+          type: req.body.type,
+          color: req.body.color,
+          player_color: req.body.player_color,
+          moves: []
+        });
         res.status(200).json({id: token});
       });
     }
