@@ -21,7 +21,11 @@ class RestWebServicePlayer {
           'content-type': 'application/json',
           'cache-control': 'no-cache'
         },
-        json: {id: this._id, game: this._engine.get_name(), move: JSON.stringify(move.to_object())},
+        json: {
+          id: this._id, game:
+            this._engine.get_name(),
+          move: JSON.stringify(move.to_object())
+        },
         xhrFields: {withCredentials: true}
       }, (error, response, data) => {
         if (error) {
@@ -37,7 +41,11 @@ class RestWebServicePlayer {
           'content-type': 'application/json',
           'cache-control': 'no-cache'
         },
-        json: {id: this._id, game: this._engine.get_name(), color: this._color},
+        json: {
+          id: this._id,
+          game: this._engine.get_name(),
+          color: this._color
+        },
         xhrFields: {withCredentials: true}
       }, (error, response, data) => {
         if (error) {
@@ -57,7 +65,13 @@ class RestWebServicePlayer {
         'content-type': 'application/json',
         'cache-control': 'no-cache'
       },
-      json: {game: this._engine.get_name(), type: this._engine.get_type(), color: this._engine.current_color(), player_color: this._color, login: this._login},
+      json: {
+        game: this._engine.get_name(),
+        type: this._engine.get_type(),
+        color: this._engine.current_color(),
+        player_color: this._color,
+        login: this._login
+      },
       xhrFields: {withCredentials: true}
     }, (error, response, data) => {
       if (error) {
