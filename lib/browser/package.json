@@ -1,0 +1,19 @@
+{
+  "name": "openxum-browser",
+  "author": {
+    "name": "Eric Ramat",
+    "email": "eric.ramat@gmail.com",
+    "url": "http://github.com/eramat"
+  },
+  "description": "An open multi-platform turn-based strategy game framework",
+  "main": "index.mjs",
+  "license": "GPL-3.0",
+  "repository": {
+    "url": "https://github.com/openxum-team/openxum-es6-games",
+    "type": "git"
+  },
+  "version": "0.0.2",
+  "dependencies": {
+    "openxum-core": "^0.0.1"
+  }
+}
