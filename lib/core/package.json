@@ -1,5 +1,5 @@
 {
-  "name": "openxum-browser",
+  "name": "openxum-core",
   "author": {
     "name": "Eric Ramat",
     "email": "eric.ramat@gmail.com",
@@ -12,5 +12,5 @@
     "url": "https://github.com/openxum-team/openxum-es6-games",
     "type": "git"
   },
-  "version": "0.0.1"
+  "version": "0.0.2"
 }
