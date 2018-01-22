@@ -17,9 +17,19 @@
     </script>
     <link rel="stylesheet" href="openxum.css">
     <script type="module">
-      import lib from "./lib/browser/index.mjs";
+      import core from "/node_modules/openxum-core/index.mjs";
+      import browser from "/node_modules/openxum-browser/index.mjs";
 
-      window.OpenXum = lib.OpenXum;
+      window.OpenXum = core.OpenXum;
+      for (let key in browser.OpenXum) {
+        if (key === "Games") {
+          for (let game in browser.OpenXum.Games) {
+            window.OpenXum[game] = Object.assign(window.OpenXum[game], browser.OpenXum.Games[game]);
+          }
+        } else {
+          window.OpenXum[key] = browser.OpenXum[key];
+        }
+      }
     </script>
 </head>
 <body>

@@ -11,6 +11,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "@std/esm": "^0.19.1",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "openxum-core": "^0.0.2"
   }
 }
