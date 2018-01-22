@@ -9,19 +9,9 @@
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <script type="module">
-      import core from "/node_modules/openxum-core/index.mjs";
-      import browser from "/node_modules/openxum-browser/index.mjs";
+      import OpenXum from "/node_modules/openxum-browser/index.mjs";
 
-      window.OpenXum = core.OpenXum;
-      for (let key in browser.OpenXum) {
-        if (key === "Games") {
-          for (let game in browser.OpenXum.Games) {
-            window.OpenXum[game] = Object.assign(window.OpenXum[game], browser.OpenXum.Games[game]);
-          }
-        } else {
-          window.OpenXum[key] = browser.OpenXum[key];
-        }
-      }
+      window.OpenXum = OpenXum;
     </script>
 </head>
 <body>
