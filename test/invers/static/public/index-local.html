@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invers</title>
+
+    <link rel="stylesheet" href="openxum.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script type="module">
+      import OpenXum from "/lib/openxum-browser/index.mjs";
+
+      window.OpenXum = OpenXum;
+    </script>
+</head>
+<body>
+<div class="page">
+<div class="container" id="main"></div>
+</div>
+<script>
+  $(document).ready(function () {
+    new OpenXum.GamePage(OpenXum.Invers, 'invers', OpenXum.Invers.Color.RED, OpenXum.Invers.Color.RED,
+      OpenXum.Invers.Color.YELLOW, OpenXum.GameType.LOCAL_AI, '-1', OpenXum.Invers.GameType.STANDARD, '', '', '', false);
+  });
+</script>
+</body>
+</html>

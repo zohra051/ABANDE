@@ -1,4 +1,4 @@
-import lib from '../lib/core/openxum';
+import lib from '../lib/openxum-core/openxum';
 
 let red_win = 0;
 let yellow_win = 0;
