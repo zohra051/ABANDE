@@ -12,10 +12,11 @@
     "url": "https://github.com/openxum-team/openxum-es6-games",
     "type": "git"
   },
-  "version": "0.0.21",
+  "version": "0.0.34",
   "dependencies": {
     "bootstrap": "^4.0.0",
     "jquery": "^3.3.1",
-    "openxum-core": "^0.0.2"
+    "openxum-core": "^0.0.34",
+    "popper.js": "^1.14.3"
   }
 }
