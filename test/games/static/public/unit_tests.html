@@ -208,6 +208,19 @@ QUnit.test("ENGINE : CAPTURE_PIECE : Capturer un jeton. ",function (assert) {
 
 /******************************************************************************************************************/
 
+QUnit.test("ENGINE : CHANGE CURRENT PLAYER : ",function (assert) {
+
+    let engine = new window.OpenXum.Abande.Engine(0);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
+    let color_black = window.OpenXum.Abande.Color.BLACK;
+    engine._put_first_piece(color_black,coord_A2);
+    engine._change_current_player();
+    assert.ok(engine._current_color === color_black , "Changement du joueur courant : OK ");
+
+});
+
+
+/******************************************************************************************************************/
 QUnit.test("ENGINE : CHANGE OLD AVAILABLE : Toutes les anciennes coordonnées Disponible ont étais réinitialisé ?  ",function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
@@ -238,6 +251,16 @@ QUnit.test("ENGINE : CHANGE OLD AVAILABLE : Toutes les anciennes coordonnées Di
     assert.ok(engine._intersections[coord_B3.hash()].getColor() === 2 , "La case à gauche de B4 précédement DISPONIBLE reste à DISPONIBLE : OK");
     assert.ok(engine._intersections[coord_A4.hash()].getColor() === 2 , "La case en bas à droite de B4 précédement DISPONIBLE reste à DISPONIBLE : OK");
 
+});
+
+/*******************************************************************************************************************/
+
+QUnit.test("ENGINE : COORDINATE FROM HASH : Quels est la coordonnés ? ",function(assert){
+
+    let engine = new window.OpenXum.Abande.Engine(0);
+    let coordinate = engine._coordinate_from_hash(18);
+
+    assert.ok( coordinate.letter() === 'E' && coordinate.number() === 3  ,"TRUE" );
 });
 
 /*******************************************************************************************************************/
@@ -474,6 +497,38 @@ QUnit.test("ENGINE : MOVE : Quels action souhaitez vous faire ? ",function (asse
 
 /*****************************************************************************************************************/
 
+QUnit.test("ENGINE : NEIGHBOOR DISPO : Quels sont les voisins disponible ? ", function (assert){
+
+    let engine = new window.OpenXum.Abande.Engine(0);
+    let coord_A1 = new window.OpenXum.Abande.Coordinates('A',1);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
+    let coord_A3 = new window.OpenXum.Abande.Coordinates('A',3);
+    let coord_B2 = new window.OpenXum.Abande.Coordinates('B',2);
+    let coord_B3 = new window.OpenXum.Abande.Coordinates('B',3);
+
+    let color_black = window.OpenXum.Abande.Color.BLACK;
+    let color_white = window.OpenXum.Abande.Color.WHITE;
+    let color_disponible = window.OpenXum.Abande.Color.DISPONIBLE;
+
+    engine._put_first_piece(color_black,coord_A2);
+
+    assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_disponible  &&
+        engine._intersections[coord_A3.hash()].getColor() === color_disponible &&
+        engine._intersections[coord_B2.hash()].getColor() === color_disponible &&
+        engine._intersections[coord_B3.hash()].getColor() === color_disponible , " A2 n'a aucun voisins : OK " );
+
+        engine._put_piece(color_white,coord_A1);
+
+    assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_white &&
+        engine._intersections[coord_A3.hash()].getColor() === color_disponible &&
+        engine._intersections[coord_B2.hash()].getColor() === color_disponible &&
+        engine._intersections[coord_B3.hash()].getColor() === color_disponible , " A2 n'a aucun voisins : OK " );
+
+});
+
+
+/*****************************************************************************************************************/
+
 QUnit.test("ENGINE : NO HOLE : Il y aura t-il des vide s'il y a une capture ? ",function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
@@ -483,7 +538,6 @@ QUnit.test("ENGINE : NO HOLE : Il y aura t-il des vide s'il y a une capture ? ",
     let coord_B2 = new window.OpenXum.Abande.Coordinates('B',2);
     let coord_B3 = new window.OpenXum.Abande.Coordinates('B',3);
     let coord_C3 = new window.OpenXum.Abande.Coordinates('C',3);
-
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
