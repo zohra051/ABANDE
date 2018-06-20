@@ -12,285 +12,417 @@
 <script src="qunit-2.6.1.js"></script>
 
 <script type="module">
-    import lib from "/lib/openxum-core/index.mjs";
-    window.OpenXum = lib.OpenXum;
+  import lib from "/lib/openxum-core/index.mjs";
+  window.OpenXum = lib.OpenXum;
 </script>
 <script>
 
-QUnit.test( "Le numéro de coordonnée A2", function( assert ) {
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
-assert.ok( coord_A2._number === 2 , " TRUE " );
-});
+  /********** COORDINATES ********* COORDINATES ********* COORDINATES ********/
 
-QUnit.test( "Les coordonnées A2 et A2bis sont-ils identique ? ", function( assert ) {
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
-    let coord_A2bis = new window.OpenXum.Abande.Coordinates('A',2);
-assert.ok( coord_A2.equals(coord_A2bis) , " TRUE" );
-});
+  QUnit.test("COORDINATES : EQUALS : Les coordonnées sont-ils identique ? ", function (assert) {
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let coord_A2bis = new window.OpenXum.Abande.Coordinates('A', 2);
+    assert.ok(coord_A2.equals(coord_A2bis), " Les coordonnées sont identiques : OK ");
+  });
 
-QUnit.test( "Les coordonnées de A2 sont-ils valident ?", function( assert ) {
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
-assert.ok( coord_A2.is_valid() , " TRUE " );
-});
+  /****************************************************************************************************************/
+
+  QUnit.test("COORDINATES : IS VALID : Les coordonnées sont-ils valident ?", function (assert) {
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    assert.ok(coord_A2.is_valid(), " Les coordonnées sont valident : OK  ");
+  });
+
+  /****************************************************************************************************************/
+
+  QUnit.test("COORDINATES : LETTER : La lettre de coordonnée ?", function (assert) {
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    assert.ok(coord_A2._letter === 'A', " La lettre de coordonnée est valide : OK ");
+  });
+
+  /****************************************************************************************************************/
+
+  QUnit.test("COORDINATES : NUMBER : Le numéro de coordonnée ?", function (assert) {
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    assert.ok(coord_A2._number === 2, " Le numéro de coordonnée est valide : OK ");
+  });
+
+  /*****************************************************************************************************************/
+
+  QUnit.test("COORDINATES : VERIFICATION : Vérification des coordonnées", function (assert) {
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    assert.ok(coord_A2.verification(), " Vérification bonne ? : OK ");
+  });
+
+  /********* INTERSECTION *********** INTERSECTION *************** INTERSECTION **************************************/
+
+  QUnit.test("INTERSECTION : GET COLOR : Quel est la couleur  ? ", function (assert) {
 
 
-QUnit.test( "Vérification des coordonnées de A2", function( assert ) {
- let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
-assert.ok( coord_A2.verification() , " TRUE " );
-});
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let intersection = new window.OpenXum.Abande.Intersection(coord_A2);
+    let color_white = window.OpenXum.Abande.Color.WHITE;
 
-QUnit.test("La couleur du jeton placée en A2 est-il noir ?", function(assert){
-    let put_first = window.OpenXum.Abande.Phase.PUT_FIRST_PIECE;
+    intersection.setColor(color_white);
+    assert.ok(intersection.getColor() === color_white, "Couleur bonne : OK ");
+
+  });
+
+  /*****************************************************************************************************************/
+
+  QUnit.test("INTERSECTION : GET COORDINATE : Quelles sont les coordonnées ?", function (assert) {
+
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let intersection = new window.OpenXum.Abande.Intersection(coord_A2);
+
+    let inter = intersection.getCoordinate();
+    assert.ok(inter.letter() === 'A' && inter.number() === 2, "Coordonnée obtenu : OK ");
+
+  });
+
+  /*****************************************************************************************************************/
+
+  QUnit.test("INTERSECTION : GET TAILLE PILE : Quel est la taille de pile de jeton ? ", function (assert) {
+
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let intersection = new window.OpenXum.Abande.Intersection(coord_A2);
+
+    console.log(intersection.getTaillePile());
+    assert.ok(intersection.getTaillePile() === 0, "Taille de la pile validé : OK ");
+  });
+
+  /*****************************************************************************************************************/
+
+  QUnit.test("INTERSECTION : SET COLOR : Modification de la couleur. ", function (assert) {
+
+
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let intersection = new window.OpenXum.Abande.Intersection(coord_A2);
+    let color_white = window.OpenXum.Abande.Color.WHITE;
     let color_black = window.OpenXum.Abande.Color.BLACK;
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
-    let coord_A4 = new window.OpenXum.Abande.Coordinates('A',4);
- let move_first_black_A2 = new window.OpenXum.Abande.Move(put_first,color_black,coord_A2,coord_A4);
-assert.ok(move_first_black_A2.color() === color_black, "TRUE");
-});
 
-QUnit.test("La lettre etle nombre correspondent-ils au coordonnée d'A2 ? ", function(assert){
+    intersection.setColor(color_white);
+    intersection.setColor(color_black);
+    assert.ok(intersection.getColor() === color_black, "Modification bonne : OK ");
+
+  });
+
+  /*****************************************************************************************************************/
+
+  QUnit.test("INTERSECTION : SET TAILLE PILE : Modification de la taille de la pile de jeton ", function (assert) {
+
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let intersection = new window.OpenXum.Abande.Intersection(coord_A2);
+
+    intersection.setTaillePile(2);
+    assert.ok(intersection.getTaillePile() === 2, "Modification validé : OK ");
+
+  });
+
+  /*****************************************************************************************************************/
+
+  QUnit.test("INTERSECTION : TAILLE PILE ZERO : Remise à zéro de la pile de jeton ", function (assert) {
+
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let intersection = new window.OpenXum.Abande.Intersection(coord_A2);
+
+    intersection.taillePileZero();
+
+    assert.ok(intersection.getTaillePile() === 0, "Mise à zéro validé : OK ");
+
+  });
+
+  /*****************************************************************************************************************/
+
+  QUnit.test("INTERSECTION : TAILLE PLUS : Incrémentation de la pile de jeton ", function (assert) {
+
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let intersection = new window.OpenXum.Abande.Intersection(coord_A2);
+
+    intersection.taillePlus();
+    intersection.taillePlus();
+    intersection.taillePlus();
+    intersection.taillePlus();
+    assert.ok(intersection.getTaillePile() === 4, "Incrémentation validé : OK ");
+
+  });
+
+  /*****************************************************************************************************************/
+
+  QUnit.test("MOVE : COLOR : Quel est la couleur ? ", function (assert) {
+
     let put_first = window.OpenXum.Abande.Phase.PUT_FIRST_PIECE;
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
     let coord_A4 = new window.OpenXum.Abande.Coordinates('A',4);
     let move_first_black_A2 = new window.OpenXum.Abande.Move(put_first,color_black,coord_A2,coord_A4);
-assert.ok(move_first_black_A2.coordinates().letter() ===  coord_A2.letter() && move_first_black_A2.coordinates().number() === coord_A2.number(), "TRUE");
-});
+    assert.ok(move_first_black_A2.color() === color_black, "Couleur correct : OK ");
 
-QUnit.test("Les coordonnées FROM corespondent-ils à A2 ? ", function(assert){
+  });
+
+  /*****************************************************************************************************************/
+
+  QUnit.test("MOVE : COORDINATE : Quel est la coordonnée ? ", function (assert) {
+
+    let put_first = window.OpenXum.Abande.Phase.PUT_FIRST_PIECE;
+    let color_black = window.OpenXum.Abande.Color.BLACK;
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
+    let coord_A4 = new window.OpenXum.Abande.Coordinates('A',4);
+    let move_first_black_A2 = new window.OpenXum.Abande.Move(put_first,color_black,coord_A2,coord_A4);
+    assert.ok(move_first_black_A2._coordinates.letter() === 'A' && move_first_black_A2._coordinates.number() === 2 , "Coordonnée correct : OK ");
+
+  });
+
+  /*****************************************************************************************************************/
+
+  QUnit.test("MOVE : FROM : Quel est la coordonnée de départ ? ", function (assert) {
+
     let capture = window.OpenXum.Abande.Phase.CAPTURE_PIECE;
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
     let coord_D7 = new window.OpenXum.Abande.Coordinates('D',7);
     let move_capture_black_A2_D7 = new window.OpenXum.Abande.Move(capture,color_black,coord_A2,coord_D7);
-assert.ok(move_capture_black_A2_D7.from().letter() === coord_A2.letter() && move_capture_black_A2_D7.from().number() === coord_A2.number(), "TRUE");
-});
+    assert.ok(move_capture_black_A2_D7 ._from.letter() === 'A' && move_capture_black_A2_D7 ._from.number() === 2 , "Coordonnée de départ correct : OK ");
 
-QUnit.test("Les coordonnées TO corespondent-ils à D7 ? ", function(assert){
+  });
+
+  /*****************************************************************************************************************/
+
+  QUnit.test("MOVE : TO : Quel est la coordonnée de d'arrivé ? ", function (assert) {
+
     let capture = window.OpenXum.Abande.Phase.CAPTURE_PIECE;
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
     let coord_D7 = new window.OpenXum.Abande.Coordinates('D',7);
     let move_capture_black_A2_D7 = new window.OpenXum.Abande.Move(capture,color_black,coord_A2,coord_D7);
-assert.ok(move_capture_black_A2_D7.to().letter() === coord_D7.letter() && move_capture_black_A2_D7.to().number() === coord_D7.number(), "TRUE");
-});
+    assert.ok(move_capture_black_A2_D7 ._to.letter() === 'D' && move_capture_black_A2_D7 ._to.number() === 7 , "Coordonnée d'arrivé correct : OK ");
 
-QUnit.test("Est-ce une capture ? ",function (assert) {
+  });
+
+  /*****************************************************************************************************************/
+
+  QUnit.test("MOVE : TYPE : Quel est le type d'action ? ", function (assert) {
+
     let capture = window.OpenXum.Abande.Phase.CAPTURE_PIECE;
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
     let coord_D7 = new window.OpenXum.Abande.Coordinates('D',7);
     let move_capture_black_A2_D7 = new window.OpenXum.Abande.Move(capture,color_black,coord_A2,coord_D7);
-    assert.ok(move_capture_black_A2_D7.type() === capture, "TRUE")
-});
+    assert.ok(move_capture_black_A2_D7 ._type === capture , "Type d'action correct : OK ");
 
+  });
 
+  /* ENGINE ---- ENGINE ---- ENGINE ----- ENGINE --- ENGINE ----*/
 
-
-
-
-
-
-
-
-
-
-
-/* ENGINE ---- ENGINE ---- ENGINE ----- ENGINE --- ENGINE ----*/
-
-/*****************************************************************************************************************/
-
-QUnit.test("ENGINE : ARE NEIGHBOUR : Sont-ils voisins ? ",function (assert) {
+  QUnit.test("ENGINE : ALL AT NONE : Le plateau est il vide ? ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_A1 = new window.OpenXum.Abande.Coordinates('A',1);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
-    let coord_A3 = new window.OpenXum.Abande.Coordinates('A',3);
 
-    assert.ok(engine._are_neighbour(coord_A2,coord_A3) === true, " A2 et A3 sont voisins ! :OK ");
-    assert.ok(engine._are_neighbour(coord_A1,coord_A3) === false, " A1 et A3 net sont pas voisins ! : OK ")
+    let color_none = window.OpenXum.Abande.Color.NONE;
 
-});
+    engine._all_at_none();
 
-/******************************************************************************************************************/
+    for (let i = 0; i < engine._intersections.length; i++) {
+      if (engine._intersections[i] !== undefined) {
+        assert.ok(engine._intersections[i].getColor() === color_none, "Le plateau est vide : OK ");
+      }
 
-QUnit.test("ENGINE : ARE OPPOSITE COLOR : Sont(ils de couleurs opposé ? ",function (assert) {
+    }
+
+  });
+
+  /*****************************************************************************************************************/
+
+  QUnit.test("ENGINE : ARE NEIGHBOUR : Sont-ils voisins ? ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_A1 = new window.OpenXum.Abande.Coordinates('A',1);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
+    let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let coord_A3 = new window.OpenXum.Abande.Coordinates('A', 3);
+
+    assert.ok(engine._are_neighbour(coord_A2, coord_A3) === true, " A2 et A3 sont voisins ! :OK ");
+    assert.ok(engine._are_neighbour(coord_A1, coord_A3) === false, " A1 et A3 net sont pas voisins ! : OK ")
+
+  });
+
+  /******************************************************************************************************************/
+
+  QUnit.test("ENGINE : ARE OPPOSITE COLOR : Sont(ils de couleurs opposé ? ", function (assert) {
+
+    let engine = new window.OpenXum.Abande.Engine(0);
+    let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
 
-    engine._put_first_piece(color_black,coord_A2);
-    engine._put_piece(color_white,coord_A1);
+    engine._put_first_piece(color_black, coord_A2);
+    engine._put_piece(color_white, coord_A1);
 
-    assert.ok(engine._are_opposite_color(coord_A2,coord_A1) , "A2 et A3 sont de couleurs opposés : OK");
+    assert.ok(engine._are_opposite_color(coord_A2, coord_A1), "A2 et A3 sont de couleurs opposés : OK");
 
-});
+  });
 
-/*****************************************************************************************************************/
+  /*****************************************************************************************************************/
 
-QUnit.test("ENGINE : BLACK PIECE NUMBER : Le joueur noir possède t-il 18 jetons ?",function (assert) {
+  QUnit.test("ENGINE : BLACK PIECE NUMBER : Le joueur noir possède t-il 18 jetons ?", function (assert) {
     let engine = new window.OpenXum.Abande.Engine(0);
     assert.ok(engine.black_piece_number() === 18, "TRUE")
-});
+  });
 
-/***************************************************************************************************************/
+  /***************************************************************************************************************/
 
-QUnit.test("ENGINE : CAN CAPTURE : Peut-on capturer ce jeton ? ", function (assert) {
+  QUnit.test("ENGINE : CAN CAPTURE : Peut-on capturer ce jeton ? ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_A1 = new window.OpenXum.Abande.Coordinates('A',1);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
-    let coord_A3 = new window.OpenXum.Abande.Coordinates('A',3);
-    let coord_B2 = new window.OpenXum.Abande.Coordinates('B',2);
-    let coord_B4 = new window.OpenXum.Abande.Coordinates('B',4);
+    let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let coord_A3 = new window.OpenXum.Abande.Coordinates('A', 3);
+    let coord_B2 = new window.OpenXum.Abande.Coordinates('B', 2);
+    let coord_B4 = new window.OpenXum.Abande.Coordinates('B', 4);
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
 
-    engine._put_first_piece(color_black,coord_A2);
-    engine._put_piece(color_white,coord_A1);
-    engine._put_piece(color_black,coord_A3);
-    engine._put_piece(color_white,coord_B4);
-    engine._put_piece(color_black,coord_B2);
+    engine._put_first_piece(color_black, coord_A2);
+    engine._put_piece(color_white, coord_A1);
+    engine._put_piece(color_black, coord_A3);
+    engine._put_piece(color_white, coord_B4);
+    engine._put_piece(color_black, coord_B2);
 
-    assert.ok(engine._can_capture(coord_B4,coord_A3) === true , " PLateau B2 \t B4 \n A1 A2 A3  => B4 peut capturer A3 ");
-    assert.ok(engine._can_capture(coord_A2,coord_A1) === false , " PLateau B2 \t B4 \n A1 A2 A3  => A2 ne peux pas capturer A1 " );
+    assert.ok(engine._can_capture(coord_B4, coord_A3) === true, " PLateau B2 \t B4 \n A1 A2 A3  => B4 peut capturer A3 ");
+    assert.ok(engine._can_capture(coord_A2, coord_A1) === false, " PLateau B2 \t B4 \n A1 A2 A3  => A2 ne peux pas capturer A1 ");
 
-});
+  });
 
-/******************************************************************************************************************/
+  /******************************************************************************************************************/
 
-QUnit.test("ENGINE : CAPTURE_PIECE : Capturer un jeton. ",function (assert) {
+  QUnit.test("ENGINE : CAPTURE_PIECE : Capturer un jeton. ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_A1 = new window.OpenXum.Abande.Coordinates('A',1);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
-    let coord_A3 = new window.OpenXum.Abande.Coordinates('A',3);
-    let coord_A4 = new window.OpenXum.Abande.Coordinates('A',4);
-    let coord_B2 = new window.OpenXum.Abande.Coordinates('B',2);
-    let coord_B3 = new window.OpenXum.Abande.Coordinates('B',3);
-    let coord_B4 = new window.OpenXum.Abande.Coordinates('B',4);
-    let coord_B5 = new window.OpenXum.Abande.Coordinates('B',5);
-    let coord_C4 = new window.OpenXum.Abande.Coordinates('C',4);
-    let coord_C5 = new window.OpenXum.Abande.Coordinates('C',5);
+    let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let coord_A3 = new window.OpenXum.Abande.Coordinates('A', 3);
+    let coord_A4 = new window.OpenXum.Abande.Coordinates('A', 4);
+    let coord_B2 = new window.OpenXum.Abande.Coordinates('B', 2);
+    let coord_B3 = new window.OpenXum.Abande.Coordinates('B', 3);
+    let coord_B4 = new window.OpenXum.Abande.Coordinates('B', 4);
+    let coord_B5 = new window.OpenXum.Abande.Coordinates('B', 5);
+    let coord_C4 = new window.OpenXum.Abande.Coordinates('C', 4);
+    let coord_C5 = new window.OpenXum.Abande.Coordinates('C', 5);
 
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
 
-    engine._put_first_piece(color_black,coord_A2);
-    engine._put_piece(color_white,coord_A1);
-    engine._put_piece(color_black,coord_A3);
-    engine._put_piece(color_white,coord_B4);
-    engine._put_piece(color_black,coord_B2);
+    engine._put_first_piece(color_black, coord_A2);
+    engine._put_piece(color_white, coord_A1);
+    engine._put_piece(color_black, coord_A3);
+    engine._put_piece(color_white, coord_B4);
+    engine._put_piece(color_black, coord_B2);
 
-    engine._capture_piece(color_white,coord_B4,coord_A3);
+    engine._capture_piece(color_white, coord_B4, coord_A3);
 
-    assert.ok(engine._intersections[coord_B4.hash()].getTaillePile() === 0 , "La taille de pile de FROM est à 1 : OK ");
-    assert.ok(engine._intersections[coord_A3.hash()].getTaillePile() === 2 , "La taille de pile de TO est à 2 : OK ");
-    assert.ok(engine._intersections[coord_B4.hash()].getColor() === 2 , "La couleur de départ B4 est DISPONIBLE : OK ");
-    assert.ok(engine._intersections[coord_A3.hash()].getColor() === color_white , "La couleur d'arrivé A3 est WHITE : OK ");
+    assert.ok(engine._intersections[coord_B4.hash()].getTaillePile() === 0, "La taille de pile de FROM est à 1 : OK ");
+    assert.ok(engine._intersections[coord_A3.hash()].getTaillePile() === 2, "La taille de pile de TO est à 2 : OK ");
+    assert.ok(engine._intersections[coord_B4.hash()].getColor() === 2, "La couleur de départ B4 est DISPONIBLE : OK ");
+    assert.ok(engine._intersections[coord_A3.hash()].getColor() === color_white, "La couleur d'arrivé A3 est WHITE : OK ");
 
-    assert.ok(engine._intersections[coord_C4.hash()].getColor() === -1 , "La case en haut à gauche de B4 précédement DISPONIBLE est à NONE : OK");
-    assert.ok(engine._intersections[coord_C5.hash()].getColor() === -1 , "La case en haut à droite de B4 précédement DISPONIBLE est à NONE : OK");
-    assert.ok(engine._intersections[coord_B5.hash()].getColor() === -1 , "La case à droite de B4 précédement DISPONIBLE est à NONE : OK");
-    assert.ok(engine._intersections[coord_B3.hash()].getColor() === 2 , "La case à gauche de B4 précédement DISPONIBLE reste à DISPONIBLE : OK");
-    assert.ok(engine._intersections[coord_A4.hash()].getColor() === 2 , "La case en bas à droite de B4 précédement DISPONIBLE reste à DISPONIBLE : OK");
+    assert.ok(engine._intersections[coord_C4.hash()].getColor() === -1, "La case en haut à gauche de B4 précédement DISPONIBLE est à NONE : OK");
+    assert.ok(engine._intersections[coord_C5.hash()].getColor() === -1, "La case en haut à droite de B4 précédement DISPONIBLE est à NONE : OK");
+    assert.ok(engine._intersections[coord_B5.hash()].getColor() === -1, "La case à droite de B4 précédement DISPONIBLE est à NONE : OK");
+    assert.ok(engine._intersections[coord_B3.hash()].getColor() === 2, "La case à gauche de B4 précédement DISPONIBLE reste à DISPONIBLE : OK");
+    assert.ok(engine._intersections[coord_A4.hash()].getColor() === 2, "La case en bas à droite de B4 précédement DISPONIBLE reste à DISPONIBLE : OK");
 
-    assert.ok(engine.current_color() === color_black , "Le joueur courant à étais modifié => BLACK : OK");
-    assert.ok(engine.is_finished() === false , "La partie est toujours en cours : OK ");
+    assert.ok(engine.current_color() === color_black, "Le joueur courant à étais modifié => BLACK : OK");
+    assert.ok(engine.is_finished() === false, "La partie est toujours en cours : OK ");
 
-});
+  });
 
-/******************************************************************************************************************/
+  /******************************************************************************************************************/
 
-QUnit.test("ENGINE : CHANGE CURRENT PLAYER : ",function (assert) {
+  QUnit.test("ENGINE : CHANGE CURRENT PLAYER : Changer le joueur courant ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
     let color_black = window.OpenXum.Abande.Color.BLACK;
-    engine._put_first_piece(color_black,coord_A2);
+    engine._put_first_piece(color_black, coord_A2);
     engine._change_current_player();
-    assert.ok(engine._current_color === color_black , "Changement du joueur courant : OK ");
+    assert.ok(engine._current_color === color_black, "Changement du joueur courant : OK ");
 
-});
+  });
 
 
-/******************************************************************************************************************/
-QUnit.test("ENGINE : CHANGE OLD AVAILABLE : Toutes les anciennes coordonnées Disponible ont étais réinitialisé ?  ",function (assert) {
+  /******************************************************************************************************************/
+  QUnit.test("ENGINE : CHANGE OLD AVAILABLE : Toutes les anciennes coordonnées Disponible ont étais réinitialisé ?  ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_A1 = new window.OpenXum.Abande.Coordinates('A',1);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
-    let coord_A3 = new window.OpenXum.Abande.Coordinates('A',3);
-    let coord_A4 = new window.OpenXum.Abande.Coordinates('A',4);
-    let coord_B2 = new window.OpenXum.Abande.Coordinates('B',2);
-    let coord_B3 = new window.OpenXum.Abande.Coordinates('B',3);
-    let coord_B4 = new window.OpenXum.Abande.Coordinates('B',4);
-    let coord_B5 = new window.OpenXum.Abande.Coordinates('B',5);
-    let coord_C4 = new window.OpenXum.Abande.Coordinates('C',4);
-    let coord_C5 = new window.OpenXum.Abande.Coordinates('C',5);
+    let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let coord_A3 = new window.OpenXum.Abande.Coordinates('A', 3);
+    let coord_A4 = new window.OpenXum.Abande.Coordinates('A', 4);
+    let coord_B2 = new window.OpenXum.Abande.Coordinates('B', 2);
+    let coord_B3 = new window.OpenXum.Abande.Coordinates('B', 3);
+    let coord_B4 = new window.OpenXum.Abande.Coordinates('B', 4);
+    let coord_B5 = new window.OpenXum.Abande.Coordinates('B', 5);
+    let coord_C4 = new window.OpenXum.Abande.Coordinates('C', 4);
+    let coord_C5 = new window.OpenXum.Abande.Coordinates('C', 5);
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
-    engine._put_first_piece(color_black,coord_A2);
-    engine._put_piece(color_white,coord_A1);
-    engine._put_piece(color_black,coord_A3);
-    engine._put_piece(color_white,coord_B4);
-    engine._put_piece(color_black,coord_B2);
+    engine._put_first_piece(color_black, coord_A2);
+    engine._put_piece(color_white, coord_A1);
+    engine._put_piece(color_black, coord_A3);
+    engine._put_piece(color_white, coord_B4);
+    engine._put_piece(color_black, coord_B2);
 
-    engine._capture_piece(color_white,coord_B4,coord_A3);
+    engine._capture_piece(color_white, coord_B4, coord_A3);
 
-    assert.ok(engine._intersections[coord_C4.hash()].getColor() === -1 , "La case en haut à gauche de B4 précédement DISPONIBLE est à NONE : OK");
-    assert.ok(engine._intersections[coord_C5.hash()].getColor() === -1 , "La case en haut à droite de B4 précédement DISPONIBLE est à NONE : OK");
-    assert.ok(engine._intersections[coord_B5.hash()].getColor() === -1 , "La case à droite de B4 précédement DISPONIBLE est à NONE : OK");
-    assert.ok(engine._intersections[coord_B3.hash()].getColor() === 2 , "La case à gauche de B4 précédement DISPONIBLE reste à DISPONIBLE : OK");
-    assert.ok(engine._intersections[coord_A4.hash()].getColor() === 2 , "La case en bas à droite de B4 précédement DISPONIBLE reste à DISPONIBLE : OK");
+    assert.ok(engine._intersections[coord_C4.hash()].getColor() === -1, "La case en haut à gauche de B4 précédement DISPONIBLE est à NONE : OK");
+    assert.ok(engine._intersections[coord_C5.hash()].getColor() === -1, "La case en haut à droite de B4 précédement DISPONIBLE est à NONE : OK");
+    assert.ok(engine._intersections[coord_B5.hash()].getColor() === -1, "La case à droite de B4 précédement DISPONIBLE est à NONE : OK");
+    assert.ok(engine._intersections[coord_B3.hash()].getColor() === 2, "La case à gauche de B4 précédement DISPONIBLE reste à DISPONIBLE : OK");
+    assert.ok(engine._intersections[coord_A4.hash()].getColor() === 2, "La case en bas à droite de B4 précédement DISPONIBLE reste à DISPONIBLE : OK");
 
-});
+  });
 
-/*******************************************************************************************************************/
+  /*******************************************************************************************************************/
 
-QUnit.test("ENGINE : COORDINATE FROM HASH : Quels est la coordonnés ? ",function(assert){
-
-    let engine = new window.OpenXum.Abande.Engine(0);
-    let coordinate = engine._coordinate_from_hash(18);
-
-    assert.ok( coordinate.letter() === 'E' && coordinate.number() === 3  ,"TRUE" );
-});
-
-/*******************************************************************************************************************/
-
-QUnit.test("ENGINE : COUNT SCORE : Quel est le score du joueur noir ? ",function(assert){
+  QUnit.test("ENGINE : COORDINATE FROM HASH : Quels est la coordonnés ? ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_A1 = new window.OpenXum.Abande.Coordinates('A',1);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
-    let coord_A3 = new window.OpenXum.Abande.Coordinates('A',3);
-    let coord_B2 = new window.OpenXum.Abande.Coordinates('B',2);
+    let coordinate = engine._coordinate_from_hash(30);
+
+    assert.ok(coordinate.letter() === 'C' && coordinate.number() === 5, "TRUE");
+  });
+
+  /*******************************************************************************************************************/
+
+  QUnit.test("ENGINE : COUNT SCORE : Quel est le score du joueur noir ? ", function (assert) {
+
+    let engine = new window.OpenXum.Abande.Engine(0);
+    let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let coord_A3 = new window.OpenXum.Abande.Coordinates('A', 3);
+    let coord_B2 = new window.OpenXum.Abande.Coordinates('B', 2);
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
 
-    engine._put_first_piece(color_black,coord_A2);
-    engine._put_piece(color_white,coord_A1);
-    engine._put_piece(color_black,coord_A3);
-    engine._put_piece(color_white,coord_B2);
+    engine._put_first_piece(color_black, coord_A2);
+    engine._put_piece(color_white, coord_A1);
+    engine._put_piece(color_black, coord_A3);
+    engine._put_piece(color_white, coord_B2);
 
     let score = engine._count_score();
 
-    assert.ok( score[color_black] === 1 , "Le score du joueur BLACK est 1 : OK");
-    assert.ok( score[color_white] === 2 , "Le score du joueur BLACK est 1 : OK");
+    assert.ok(score[color_black] === 1, "Le score du joueur BLACK est 1 : OK");
+    assert.ok(score[color_white] === 2, "Le score du joueur BLACK est 1 : OK");
 
-});
+  });
 
-/*****************************************************************************************************************/
+  /*****************************************************************************************************************/
 
-QUnit.test("ENGINE : CURRENT COLOR : Qui est le joueur courant ? ",function (assert) {
+  QUnit.test("ENGINE : CURRENT COLOR : Qui est le joueur courant ? ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
 
@@ -299,173 +431,346 @@ QUnit.test("ENGINE : CURRENT COLOR : Qui est le joueur courant ? ",function (ass
     let color_disponible = window.OpenXum.Abande.Color.DISPONIBLE;
     let color_none = window.OpenXum.Abande.Color.NONE;
 
-    assert.ok(engine.current_color() === color_black,"BLACK est le joueur courant :OK ");
+    assert.ok(engine.current_color() === color_black, "BLACK est le joueur courant :OK ");
     engine._current_color = color_white;
-    assert.ok(engine.current_color() === color_white,"WHITE est le joueur courant : OK ");
+    assert.ok(engine.current_color() === color_white, "WHITE est le joueur courant : OK ");
     engine._current_color = color_disponible;
-    assert.ok(engine.current_color() === color_disponible,"DISPONIBLE est le joueur courant : OK ");
+    assert.ok(engine.current_color() === color_disponible, "DISPONIBLE est le joueur courant : OK ");
     engine._current_color = color_none;
-    assert.ok(engine.current_color() === color_none,"NONE est le joueur courant : OK ")
+    assert.ok(engine.current_color() === color_none, "NONE est le joueur courant : OK ")
 
-});
+  });
 
-/***********************************************************************************************************/
+  /***********************************************************************************************************/
 
-QUnit.test("ENGINE : DECREASE PIECE NUMBER : Décrémentation des jetons. ",function (assert) {
+  QUnit.test("ENGINE : DECREASE PIECE NUMBER : Décrémentation des jetons. ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
     let color_black = window.OpenXum.Abande.Color.BLACK;
 
     engine._black_piece_number = 13;
     engine._decrease_piece_number(color_black);
-    assert.ok(engine._black_piece_number === 12 , "Nombre de jeton BLACK à étais décrémenté : OK ");
+    assert.ok(engine._black_piece_number === 12, "Nombre de jeton BLACK à étais décrémenté : OK ");
     engine._black_piece_number = 0;
     engine._decrease_piece_number(color_black);
-    assert.ok(engine._black_piece_number === -1 , "Décrémentation IMPOSSIBLE : OK ");
+    assert.ok(engine._black_piece_number === -1, "Décrémentation IMPOSSIBLE : OK ");
 
 
-});
+  });
 
-/*******************************************************************************************************************/
+  /*******************************************************************************************************************/
 
-QUnit.test("ENGINE : DORMANT : ", function (assert) {
+  QUnit.test("ENGINE : DORMANT : Quelles sont les pièces non endormit ? ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_A1 = new window.OpenXum.Abande.Coordinates('A',1);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
-    let coord_A3 = new window.OpenXum.Abande.Coordinates('A',3);
-    let coord_B2 = new window.OpenXum.Abande.Coordinates('B',2);
-    let coord_B4 = new window.OpenXum.Abande.Coordinates('B',4);
-    let coord_C2 = new window.OpenXum.Abande.Coordinates('C',2);
+    let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let coord_A3 = new window.OpenXum.Abande.Coordinates('A', 3);
+    let coord_B2 = new window.OpenXum.Abande.Coordinates('B', 2);
+    let coord_B4 = new window.OpenXum.Abande.Coordinates('B', 4);
+    let coord_C2 = new window.OpenXum.Abande.Coordinates('C', 2);
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
 
-    engine._put_first_piece(color_black,coord_A2);
-    engine._put_piece(color_white,coord_A1);
-    engine._put_piece(color_black,coord_A3);
-    engine._put_piece(color_white,coord_B2);
-    engine._put_piece(color_black,coord_B4);
-    engine._put_piece(color_white,coord_C2);
+    engine._put_first_piece(color_black, coord_A2);
+    engine._put_piece(color_white, coord_A1);
+    engine._put_piece(color_black, coord_A3);
+    engine._put_piece(color_white, coord_B2);
+    engine._put_piece(color_black, coord_B4);
+    engine._put_piece(color_white, coord_C2);
 
     engine._dormant();
 
     assert.ok(engine._intersections[coord_C2.hash()].getColor() === -1 &&
-        engine._intersections[coord_B4.hash()].getColor() === -1 &&
-        engine._intersections[coord_A3.hash()].getColor() === -1 , " Les pièces dormante on étais retirés : OK ");
+      engine._intersections[coord_B4.hash()].getColor() === -1 &&
+      engine._intersections[coord_A3.hash()].getColor() === -1, " Les pièces dormante on étais retirés : OK ");
 
-});
+  });
 
-/**********************************************************************************************************************/
+  /**********************************************************************************************************************/
 
-QUnit.test("ENGINE : GET NAME : Le nom du jeu est-il ABANDE ? ",function (assert) {
-    let engine = new window.OpenXum.Abande.Engine(0);
-    assert.ok(engine.get_name() === "Abande","TRUE")
-});
-
-/************************************************************************************************************/
-
-QUnit.test("ENGINE : GET NEIGHBOOR : Quels sont les voisins ? ", function (assert) {
+  QUnit.test("ENGINE : GET COLORED : Quels sont les jetons près de moi ?", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
+    let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let coord_A3 = new window.OpenXum.Abande.Coordinates('A', 3);
+    let coord_B2 = new window.OpenXum.Abande.Coordinates('B', 2);
+    let coord_B4 = new window.OpenXum.Abande.Coordinates('B', 4);
+
+    let color_black = window.OpenXum.Abande.Color.BLACK;
+    let color_white = window.OpenXum.Abande.Color.WHITE;
+
+    engine._put_first_piece(color_black, coord_A2);
+    engine._put_piece(color_white, coord_A1);
+    engine._put_piece(color_black, coord_A3);
+    engine._put_piece(color_white, coord_B4);
+    engine._put_piece(color_black, coord_B2);
+
+    let neig = engine._get_neighboor(engine._intersections[coord_A2.hash()]);
+
+    assert.ok(engine._get_colored(neig)[0] === 0 && engine._get_colored(neig)[1] === 8 && engine._get_colored(neig)[2] === 14, "Les voisins sont correctent : OK ");
+
+  });
+
+  /**********************************************************************************************************************/
+
+  QUnit.test("ENGINE : GET NAME : Le nom du jeu est-il ABANDE ? ", function (assert) {
+    let engine = new window.OpenXum.Abande.Engine(0);
+    assert.ok(engine.get_name() === "Abande", "TRUE")
+  });
+
+  /************************************************************************************************************/
+
+  QUnit.test("ENGINE : GET NEIGHBOOR : Quels sont les voisins ? ", function (assert) {
+
+    let engine = new window.OpenXum.Abande.Engine(0);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
 
     assert.ok(engine._get_neighboor(engine._intersections[coord_A2.hash()])[0] === 0 &&
-        engine._get_neighboor(engine._intersections[coord_A2.hash()])[1] === 8 &&
-        engine._get_neighboor(engine._intersections[coord_A2.hash()])[2] === 14 &&
-        engine._get_neighboor(engine._intersections[coord_A2.hash()])[3] === 15,"Coordonnée voisines correcte ! : OK ");
+      engine._get_neighboor(engine._intersections[coord_A2.hash()])[1] === 8 &&
+      engine._get_neighboor(engine._intersections[coord_A2.hash()])[2] === 14 &&
+      engine._get_neighboor(engine._intersections[coord_A2.hash()])[3] === 15, "Coordonnée voisines correcte ! : OK ");
 
-});
+  });
 
-/****************************************************************************************************************/
-QUnit.test("ENGINE : GET NEIGHBOOR BOTTOM : Quels sont les voisins de cette coordonnés ( Bottom du plateau ) " , function (assert) {
+  /****************************************************************************************************************/
+
+  QUnit.test("ENGINE : GET NEIGHBOOR BOTTOM : Quels sont les voisins de cette coordonnés ( Bottom du plateau ) ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
 
     let list_bonne_bottom = engine._get_neighboor_bottom(coord_A2.hash());
-    let test2 = [ 0, 8, 14, 15 ];
-    for(let i = 0 ; i < test2.length;i++)
-    {
-        assert.ok(list_bonne_bottom[i] === test2[i], "Listes des coordonnées des voisins : OK ");
+    let test2 = [0, 8, 14, 15];
+    for (let i = 0; i < test2.length; i++) {
+      assert.ok(list_bonne_bottom[i] === test2[i], "Listes des coordonnées des voisins : OK ");
     }
 
-});
+  });
 
-/************************************************************************************************************/
+  /************************************************************************************************************/
 
-QUnit.test("ENGINE : GET NEIGHBOOR MIDDLE : Quels sont les voisins de cette coordonnés ( Middle du plateau ) " , function (assert) {
+  QUnit.test("ENGINE : GET NEIGHBOOR MIDDLE : Quels sont les voisins de cette coordonnés ( Middle du plateau ) ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_D5 = new window.OpenXum.Abande.Coordinates('D',5);
+    let coord_D5 = new window.OpenXum.Abande.Coordinates('D', 5);
 
     let list_bonne_middle = engine._get_neighboor_middle(coord_D5.hash());
-    let test3 = [ 23, 24, 25, 30, 32, 38 ];
-    for(let i = 0 ; i < test3.length;i++)
-    {
-        assert.ok(list_bonne_middle[i] === test3[i], "Listes des coordonnées des voisins : OK ");
+    let test3 = [23, 24, 25, 30, 32, 38];
+    for (let i = 0; i < test3.length; i++) {
+      assert.ok(list_bonne_middle[i] === test3[i], "Listes des coordonnées des voisins : OK ");
     }
 
-});
+  });
 
-/*****************************************************************************************************************/
+  /*****************************************************************************************************************/
 
-QUnit.test("ENGINE : GET NEIGHBOOR TOP : Quels sont les voisins de cette coordonnés ( Top du plateau ) " , function (assert) {
+  QUnit.test("ENGINE : GET NEIGHBOOR TOP : Quels sont les voisins de cette coordonnés ( Top du plateau ) ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_F5 = new window.OpenXum.Abande.Coordinates('F',5);
+    let coord_F5 = new window.OpenXum.Abande.Coordinates('F', 5);
 
     let list_bonne_top = engine._get_neighboor_top(coord_F5.hash());
-    let test = [ 27, 26, 32, 39 ];
-    for(let i = 0 ; i < test.length;i++)
-    {
-        assert.ok(list_bonne_top[i] === test[i], "Listes des coordonnées des voisins : OK ");
+    let test = [27, 26, 32, 39];
+    for (let i = 0; i < test.length; i++) {
+      assert.ok(list_bonne_top[i] === test[i], "Listes des coordonnées des voisins : OK ");
     }
 
-});
+  });
 
-/**********************************************************************************************************************/
+  /**********************************************************************************************************************/
 
-QUnit.test("ENGINE : HASH EXIST : Les coordonnées sont-elles correctent ? ", function (assert) {
+  QUnit.test("ENGINE : GET POSSIBLE MOVE : Quel sont les coups possibles ?", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_G5 = new window.OpenXum.Abande.Coordinates('G',5);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
+    let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let coord_A3 = new window.OpenXum.Abande.Coordinates('A', 3);
+    let coord_B2 = new window.OpenXum.Abande.Coordinates('B', 2);
+    let coord_B4 = new window.OpenXum.Abande.Coordinates('B', 4);
 
-    assert.ok(engine._hash_exist(coord_G5.hash()) === false , "Les coordonnées ne sont pas valident : OK ");
-    assert.ok(engine._hash_exist(coord_A2.hash()) === true , "Les coordonnées sont valident : OK ");
+    let capture = window.OpenXum.Abande.Phase.CAPTURE_PIECE;
+    let put = window.OpenXum.Abande.Phase.PUT_PIECE;
+    let skip = window.OpenXum.Abande.Phase.SKIP;
 
-});
+    let color_black = window.OpenXum.Abande.Color.BLACK;
+    let color_white = window.OpenXum.Abande.Color.WHITE;
 
-/**********************************************************************************************************************/
+    engine._put_first_piece(color_black, coord_A2);
+    engine._put_piece(color_white, coord_A1);
+    engine._put_piece(color_black, coord_A3);
+    engine._put_piece(color_white, coord_B4);
+    engine._put_piece(color_black, coord_B2);
 
-QUnit.test("ENGINE : IS CURRENT PLAYER : Est-il le joueur courant ?  ", function (assert) {
+    let liste = engine.get_possible_move_list();
+    assert.ok(liste[0]._type === capture &&
+      liste[0]._color === color_white &&
+      liste[0]._from.letter() === 'A' &&
+      liste[0]._from.number() === 0 &&
+      liste[0]._to.letter() === 'A' &&
+      liste[0]._to.number() === 1, "1ere mouvement possible valide : OK");
+    assert.ok(liste[1]._type === capture &&
+      liste[1]._color === color_white &&
+      liste[1]._from.letter() === 'A' &&
+      liste[1]._from.number() === 0 &&
+      liste[1]._to.letter() === 'B' &&
+      liste[1]._to.number() === 1, "2eme mouvement possible valide : OK");
+    assert.ok(liste[2]._type === put &&
+      liste[2]._color === color_white &&
+      liste[2]._coordinates.letter() === 'B' &&
+      liste[2]._coordinates.number() === 0, "3eme mouvement possible valide : OK");
+    assert.ok(liste[3]._type === put &&
+      liste[3]._color === color_white &&
+      liste[3]._coordinates.letter() === 'C' &&
+      liste[3]._coordinates.number() === 1, "4eme mouvement possible valide : OK");
+    assert.ok(liste[4]._type === put &&
+      liste[4]._color === color_white &&
+      liste[4]._coordinates.letter() === 'B' &&
+      liste[4]._coordinates.number() === 2, "5eme mouvement possible valide : OK");
+    assert.ok(liste[5]._type === put &&
+      liste[5]._color === color_white &&
+      liste[5]._coordinates.letter() === 'C' &&
+      liste[5]._coordinates.number() === 2, "6eme mouvement possible valide : OK");
+    assert.ok(liste[6]._type === put &&
+      liste[6]._color === color_white &&
+      liste[6]._coordinates.letter() === 'A' &&
+      liste[6]._coordinates.number() === 3, "7eme mouvement possible valide : OK");
+    assert.ok(liste[7]._type === capture &&
+      liste[7]._color === color_white &&
+      liste[7]._from.letter() === 'B' &&
+      liste[7]._from.number() === 3 &&
+      liste[7]._to.letter() === 'A' &&
+      liste[7]._to.number() === 2, "8eme mouvement possible valide : OK");
+    assert.ok(liste[8]._type === put &&
+      liste[8]._color === color_white &&
+      liste[8]._coordinates.letter() === 'C' &&
+      liste[8]._coordinates.number() === 3, "9eme mouvement possible valide : OK");
+    assert.ok(liste[9]._type === put &&
+      liste[9]._color === color_white &&
+      liste[9]._coordinates.letter() === 'B' &&
+      liste[9]._coordinates.number() === 4, "10eme mouvement possible valide : OK");
+    assert.ok(liste[10]._type === put &&
+      liste[10]._color === color_white &&
+      liste[10]._coordinates.letter() === 'C' &&
+      liste[10]._coordinates.number() === 4, "11eme mouvement possible valide : OK");
+
+    engine._white_piece_number = 0;
+    let liste2 = engine.get_possible_move_list();
+    assert.ok(liste2[0]._type === capture &&
+      liste2[0]._color === color_white &&
+      liste2[0]._from.letter() === 'A' &&
+      liste2[0]._from.number() === 0 &&
+      liste2[0]._to.letter() === 'A' &&
+      liste2[0]._to.number() === 1, "1ere mouvement possible valide : OK");
+    assert.ok(liste2[1]._type === capture &&
+      liste2[1]._color === color_white &&
+      liste2[1]._from.letter() === 'A' &&
+      liste2[1]._from.number() === 0 &&
+      liste2[1]._to.letter() === 'B' &&
+      liste2[1]._to.number() === 1, "2eme mouvement possible valide : OK");
+    assert.ok(liste2[2]._type === put &&
+      liste2[2]._color === color_white &&
+      liste2[2]._coordinates.letter() === 'B' &&
+      liste2[2]._coordinates.number() === 0, "3eme mouvement possible valide : OK");
+    assert.ok(liste2[3]._type === put &&
+      liste2[3]._color === color_white &&
+      liste2[3]._coordinates.letter() === 'C' &&
+      liste2[3]._coordinates.number() === 1, "4eme mouvement possible valide : OK");
+    assert.ok(liste2[4]._type === put &&
+      liste2[4]._color === color_white &&
+      liste2[4]._coordinates.letter() === 'B' &&
+      liste2[4]._coordinates.number() === 2, "5eme mouvement possible valide : OK");
+    assert.ok(liste2[5]._type === put &&
+      liste2[5]._color === color_white &&
+      liste2[5]._coordinates.letter() === 'C' &&
+      liste2[5]._coordinates.number() === 2, "6eme mouvement possible valide : OK");
+    assert.ok(liste2[6]._type === put &&
+      liste2[6]._color === color_white &&
+      liste2[6]._coordinates.letter() === 'A' &&
+      liste2[6]._coordinates.number() === 3, "7eme mouvement possible valide : OK");
+    assert.ok(liste2[7]._type === capture &&
+      liste2[7]._color === color_white &&
+      liste2[7]._from.letter() === 'B' &&
+      liste2[7]._from.number() === 3 &&
+      liste2[7]._to.letter() === 'A' &&
+      liste2[7]._to.number() === 2, "8eme mouvement possible valide : OK");
+    assert.ok(liste2[8]._type === put &&
+      liste2[8]._color === color_white &&
+      liste2[8]._coordinates.letter() === 'C' &&
+      liste2[8]._coordinates.number() === 3, "9eme mouvement possible valide : OK");
+    assert.ok(liste2[9]._type === put &&
+      liste2[9]._color === color_white &&
+      liste2[9]._coordinates.letter() === 'B' &&
+      liste2[9]._coordinates.number() === 4, "10eme mouvement possible valide : OK");
+    assert.ok(liste2[10]._type === put &&
+      liste2[10]._color === color_white &&
+      liste2[10]._coordinates.letter() === 'C' &&
+      liste2[10]._coordinates.number() === 4, "11eme mouvement possible valide : OK");
+    assert.ok(liste2[11]._type === skip &&
+      liste2[11]._color === color_white, "12eme mouvement possible valide : OK");
+
+  });
+
+  /**********************************************************************************************************************/
+
+  QUnit.test("ENGINE : HASH EXIST : Les coordonnées sont-elles correctent ? ", function (assert) {
+
+    let engine = new window.OpenXum.Abande.Engine(0);
+    let coord_G5 = new window.OpenXum.Abande.Coordinates('G', 5);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+
+    assert.ok(engine._hash_exist(coord_G5.hash()) === false, "Les coordonnées ne sont pas valident : OK ");
+    assert.ok(engine._hash_exist(coord_A2.hash()) === true, "Les coordonnées sont valident : OK ");
+
+  });
+
+  /**********************************************************************************************************************/
+
+  QUnit.test("ENGINE : HAVE PIECE : Le joueur possède t-il encore des jeton ? ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
 
-    engine._current_color=color_black;
-    assert.ok(engine._is_current_player(color_black) === true,"Oui BLACK est la couleur courante : OK ");
-    engine._current_color=color_white;
-    assert.ok(engine._is_current_player(color_black) === false,"Non BLACK n'est pas la couleur courante : OK ");
 
-});
+    assert.ok(engine._have_piece(color_white) === true, "Le joueur possède encore des jetons : OK ");
+    engine._black_piece_number = 0;
+    assert.ok(engine._have_piece(color_black) === false, "Le joueur ne possède plus de jeton : OK ");
 
-/*****************************************************************************************************************/
 
-QUnit.test("ENGINE : IS FINISHED : Est-ce la fin du jeu ? ",function (assert) {
+  });
+
+  /**********************************************************************************************************************/
+
+  QUnit.test("ENGINE : IS CURRENT PLAYER : Est-il le joueur courant ?  ", function (assert) {
+
     let engine = new window.OpenXum.Abande.Engine(0);
-    assert.ok(engine.is_finished() === false,"TRUE")
-});
+    let color_black = window.OpenXum.Abande.Color.BLACK;
+    let color_white = window.OpenXum.Abande.Color.WHITE;
 
-/*****************************************************************************************************************/
+    engine._current_color = color_black;
+    assert.ok(engine._is_current_player(color_black) === true, "Oui BLACK est la couleur courante : OK ");
+    engine._current_color = color_white;
+    assert.ok(engine._is_current_player(color_black) === false, "Non BLACK n'est pas la couleur courante : OK ");
 
-QUnit.test("ENGINE : MOVE : Quels action souhaitez vous faire ? ",function (assert) {
+  });
 
-    let coord_A1 = new window.OpenXum.Abande.Coordinates('A',1);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
-    let coord_B2 = new window.OpenXum.Abande.Coordinates('B',2);
+  /*****************************************************************************************************************/
+
+  QUnit.test("ENGINE : IS FINISHED : Est-ce la fin du jeu ? ", function (assert) {
+    let engine = new window.OpenXum.Abande.Engine(0);
+    assert.ok(engine.is_finished() === false, "TRUE")
+  });
+
+  /*****************************************************************************************************************/
+
+  QUnit.test("ENGINE : MOVE : Quels action souhaitez vous faire ? ", function (assert) {
+
+    let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let coord_B2 = new window.OpenXum.Abande.Coordinates('B', 2);
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
@@ -475,10 +780,10 @@ QUnit.test("ENGINE : MOVE : Quels action souhaitez vous faire ? ",function (asse
     let capture = window.OpenXum.Abande.Phase.CAPTURE_PIECE;
     let put = window.OpenXum.Abande.Phase.PUT_PIECE;
 
-    let move_first_black_A2 = new window.OpenXum.Abande.Move(put_first,color_black,coord_A2);
-    let move_capture_white_A1_B2 = new window.OpenXum.Abande.Move(capture,color_white,coord_A1,coord_B2);
-    let move_put_white_A1 = new window.OpenXum.Abande.Move(put,color_white,coord_A1);
-    let move_put_black_B2 = new window.OpenXum.Abande.Move(put,color_black,coord_B2);
+    let move_first_black_A2 = new window.OpenXum.Abande.Move(put_first, color_black, coord_A2);
+    let move_capture_white_A1_B2 = new window.OpenXum.Abande.Move(capture, color_white, coord_A1, coord_B2);
+    let move_put_white_A1 = new window.OpenXum.Abande.Move(put, color_white, coord_A1);
+    let move_put_black_B2 = new window.OpenXum.Abande.Move(put, color_black, coord_B2);
 
     let engine = new window.OpenXum.Abande.Engine(0);
 
@@ -493,183 +798,205 @@ QUnit.test("ENGINE : MOVE : Quels action souhaitez vous faire ? ",function (asse
     engine.move(move_capture_white_A1_B2);
     assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_disponible, "Move capture first : OK ");
 
-});
+  });
 
-/*****************************************************************************************************************/
+  /*****************************************************************************************************************/
 
-QUnit.test("ENGINE : NEIGHBOOR DISPO : Quels sont les voisins disponible ? ", function (assert){
+  QUnit.test("ENGINE : NEIGHBOOR DISPO : Quels sont les voisins disponible ? ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_A1 = new window.OpenXum.Abande.Coordinates('A',1);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
-    let coord_A3 = new window.OpenXum.Abande.Coordinates('A',3);
-    let coord_B2 = new window.OpenXum.Abande.Coordinates('B',2);
-    let coord_B3 = new window.OpenXum.Abande.Coordinates('B',3);
+    let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let coord_A3 = new window.OpenXum.Abande.Coordinates('A', 3);
+    let coord_B2 = new window.OpenXum.Abande.Coordinates('B', 2);
+    let coord_B3 = new window.OpenXum.Abande.Coordinates('B', 3);
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
     let color_disponible = window.OpenXum.Abande.Color.DISPONIBLE;
 
-    engine._put_first_piece(color_black,coord_A2);
+    engine._put_first_piece(color_black, coord_A2);
 
-    assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_disponible  &&
-        engine._intersections[coord_A3.hash()].getColor() === color_disponible &&
-        engine._intersections[coord_B2.hash()].getColor() === color_disponible &&
-        engine._intersections[coord_B3.hash()].getColor() === color_disponible , " A2 n'a aucun voisins : OK " );
+    assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_disponible &&
+      engine._intersections[coord_A3.hash()].getColor() === color_disponible &&
+      engine._intersections[coord_B2.hash()].getColor() === color_disponible &&
+      engine._intersections[coord_B3.hash()].getColor() === color_disponible, " A2 n'a aucun voisins : OK ");
 
-        engine._put_piece(color_white,coord_A1);
+    engine._put_piece(color_white, coord_A1);
 
     assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_white &&
-        engine._intersections[coord_A3.hash()].getColor() === color_disponible &&
-        engine._intersections[coord_B2.hash()].getColor() === color_disponible &&
-        engine._intersections[coord_B3.hash()].getColor() === color_disponible , " A2 n'a aucun voisins : OK " );
+      engine._intersections[coord_A3.hash()].getColor() === color_disponible &&
+      engine._intersections[coord_B2.hash()].getColor() === color_disponible &&
+      engine._intersections[coord_B3.hash()].getColor() === color_disponible, " A2 n'a aucun voisins : OK ");
 
-});
+  });
 
 
-/*****************************************************************************************************************/
+  /*****************************************************************************************************************/
 
-QUnit.test("ENGINE : NO HOLE : Il y aura t-il des vide s'il y a une capture ? ",function (assert) {
+  QUnit.test("ENGINE : NO HOLE : Il y aura t-il des vide s'il y a une capture ? ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_A1 = new window.OpenXum.Abande.Coordinates('A',1);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
-    let coord_A3 = new window.OpenXum.Abande.Coordinates('A',3);
-    let coord_B2 = new window.OpenXum.Abande.Coordinates('B',2);
-    let coord_B3 = new window.OpenXum.Abande.Coordinates('B',3);
-    let coord_C3 = new window.OpenXum.Abande.Coordinates('C',3);
+    let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let coord_A3 = new window.OpenXum.Abande.Coordinates('A', 3);
+    let coord_B2 = new window.OpenXum.Abande.Coordinates('B', 2);
+    let coord_B3 = new window.OpenXum.Abande.Coordinates('B', 3);
+    let coord_C3 = new window.OpenXum.Abande.Coordinates('C', 3);
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
 
-    engine._put_first_piece(color_black,coord_A2);
-    engine._put_piece(color_white,coord_A1);
-    engine._put_piece(color_black,coord_A3);
-    engine._put_piece(color_white,coord_B2);
-    engine._put_piece(color_black,coord_B3);
-    engine._put_piece(color_white,coord_C3);
-    assert.ok(engine._no_hole(coord_A2,coord_B2) === true ,"On ne peux capturer : OK ");
+    engine._put_first_piece(color_black, coord_A2);
+    engine._put_piece(color_white, coord_A1);
+    engine._put_piece(color_black, coord_A3);
+    engine._put_piece(color_white, coord_B2);
+    engine._put_piece(color_black, coord_B3);
+    engine._put_piece(color_white, coord_C3);
+    assert.ok(engine._no_hole(coord_A2, coord_B2) === true, "On ne peux capturer : OK ");
 
-});
+  });
 
-/***********************************************************************************************************/
+  /***********************************************************************************************************/
 
-QUnit.test("ENGINE : OPPOSITE COLOR NEIGHBOUR : ",function (assert) {
+  QUnit.test("ENGINE : OPPOSITE COLOR NEIGHBOUR : ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_A1 = new window.OpenXum.Abande.Coordinates('A',1);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
+    let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
 
-    engine._put_first_piece(color_black,coord_A2);
-    engine._put_piece(color_white,coord_A1);
+    engine._put_first_piece(color_black, coord_A2);
+    engine._put_piece(color_white, coord_A1);
 
     let neighboor = engine._get_neighboor(engine._intersections[coord_A1.hash()]);
 
-    assert.ok(engine._opposite_color_neighbour(neighboor , engine._intersections[coord_A1.hash()].getColor())[0] ===  7  , "PARFAIT");
+    assert.ok(engine._opposite_color_neighbour(neighboor, engine._intersections[coord_A1.hash()].getColor())[0] === 7, "PARFAIT");
 
-});
+  });
 
-/*********************************************************************************************************/
+  /*********************************************************************************************************/
 
-QUnit.test("ENGINE : PUT_FIRST_PIECE : Poser un jeton en début de jeu. ",function (assert) {
+  QUnit.test("ENGINE : PUT_FIRST_PIECE : Poser un jeton en début de jeu. ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_A1 = new window.OpenXum.Abande.Coordinates('A',1);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
-    let coord_A3 = new window.OpenXum.Abande.Coordinates('A',3);
-    let coord_B2 = new window.OpenXum.Abande.Coordinates('B',2);
-    let coord_B3 = new window.OpenXum.Abande.Coordinates('B',3);
+    let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let coord_A3 = new window.OpenXum.Abande.Coordinates('A', 3);
+    let coord_B2 = new window.OpenXum.Abande.Coordinates('B', 2);
+    let coord_B3 = new window.OpenXum.Abande.Coordinates('B', 3);
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
     let color_disponible = window.OpenXum.Abande.Color.DISPONIBLE;
 
     engine._all_at_none();
-    for(let i=0;i<engine._intersections.length;i++) {
-        if(engine._hash_exist(i))
-        {
-            assert.ok(engine._intersections[i].getColor() === -1, "Case => NONE")
-        }
+    for (let i = 0; i < engine._intersections.length; i++) {
+      if (engine._hash_exist(i)) {
+        assert.ok(engine._intersections[i].getColor() === -1, "Case => NONE")
+      }
     }
-    engine._put_first_piece(color_black,coord_A2);
+    engine._put_first_piece(color_black, coord_A2);
 
-    assert.ok(engine.black_piece_number() === 17,"Taille total des jetons BLACK décrémenté => 17 : OK " );
-    assert.ok(engine._intersections[coord_A2.hash()].getColor() === color_black , "La couleurs du jeton est BLACK : OK ");
-    assert.ok(engine._intersections[coord_A2.hash()].getTaillePile() === 1 , "Le joueur à une pile de 1 jeton : OK ");
+    assert.ok(engine.black_piece_number() === 17, "Taille total des jetons BLACK décrémenté => 17 : OK ");
+    assert.ok(engine._intersections[coord_A2.hash()].getColor() === color_black, "La couleurs du jeton est BLACK : OK ");
+    assert.ok(engine._intersections[coord_A2.hash()].getTaillePile() === 1, "Le joueur à une pile de 1 jeton : OK ");
 
-    assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_disponible , "Le voisin de gauche de A2 est DISPONIBLE (A2 est seule) : OK ");
-    assert.ok(engine._intersections[coord_A3.hash()].getColor() === color_disponible , "Le voisin de droite de A2 est DISPONIBLE (A2 est seule) : OK ");
-    assert.ok(engine._intersections[coord_B2.hash()].getColor() === color_disponible , "Le voisin d'en haut de A2 a gauche est DISPONIBLE (A2 est seule) : OK ");
-    assert.ok(engine._intersections[coord_B3.hash()].getColor() === color_disponible , "Le voisin d'en haut de A2 à droite est DISPONIBLE (A2 est seule) : OK ");
+    assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_disponible, "Le voisin de gauche de A2 est DISPONIBLE (A2 est seule) : OK ");
+    assert.ok(engine._intersections[coord_A3.hash()].getColor() === color_disponible, "Le voisin de droite de A2 est DISPONIBLE (A2 est seule) : OK ");
+    assert.ok(engine._intersections[coord_B2.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 a gauche est DISPONIBLE (A2 est seule) : OK ");
+    assert.ok(engine._intersections[coord_B3.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 à droite est DISPONIBLE (A2 est seule) : OK ");
 
-    engine._put_piece(color_white,coord_A1);
+    engine._put_piece(color_white, coord_A1);
 
-    assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_white ,"Le voisin de gauche de A2 est WHITE ( A1 est sur le plateau : A1 A2 ) : OK " );
-    assert.ok(engine._intersections[coord_A3.hash()].getColor() === color_disponible , "Le voisin de droite de A2 est DISPONIBLE ( A1 est sur le plateau : A1 A2 ) : OK ");
-    assert.ok(engine._intersections[coord_B2.hash()].getColor() === color_disponible , "Le voisin d'en haut de A2 a gauche est DISPONIBLE ( A1 est sur le plateau : A1 A2 ) : OK ");
-    assert.ok(engine._intersections[coord_B3.hash()].getColor() === color_disponible , "Le voisin d'en haut de A2 à droite est DISPONIBLE ( A1 est sur le plateau : A1 A2 ) : OK ");
+    assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_white, "Le voisin de gauche de A2 est WHITE ( A1 est sur le plateau : A1 A2 ) : OK ");
+    assert.ok(engine._intersections[coord_A3.hash()].getColor() === color_disponible, "Le voisin de droite de A2 est DISPONIBLE ( A1 est sur le plateau : A1 A2 ) : OK ");
+    assert.ok(engine._intersections[coord_B2.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 a gauche est DISPONIBLE ( A1 est sur le plateau : A1 A2 ) : OK ");
+    assert.ok(engine._intersections[coord_B3.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 à droite est DISPONIBLE ( A1 est sur le plateau : A1 A2 ) : OK ");
 
-    assert.ok(engine.current_color() === color_black , "Le joueur courant à étais modifié => BLACK : OK");
+    assert.ok(engine.current_color() === color_black, "Le joueur courant à étais modifié => BLACK : OK");
 
-});
+  });
 
-/******************************************************************************************************************/
+  /******************************************************************************************************************/
 
-QUnit.test("ENGINE : PUT_PIECE : Poser un jeton. ",function (assert) {
+  QUnit.test("ENGINE : PUT_PIECE : Poser un jeton. ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_A1 = new window.OpenXum.Abande.Coordinates('A',1);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
-    let coord_A3 = new window.OpenXum.Abande.Coordinates('A',3);
-    let coord_B2 = new window.OpenXum.Abande.Coordinates('B',2);
-    let coord_B3 = new window.OpenXum.Abande.Coordinates('B',3);
+    let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let coord_A3 = new window.OpenXum.Abande.Coordinates('A', 3);
+    let coord_B2 = new window.OpenXum.Abande.Coordinates('B', 2);
+    let coord_B3 = new window.OpenXum.Abande.Coordinates('B', 3);
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
     let color_disponible = window.OpenXum.Abande.Color.DISPONIBLE;
 
-    engine._put_piece(color_black,coord_A2);
+    engine._put_piece(color_black, coord_A2);
 
-    assert.ok(engine.black_piece_number() === 17,"Taille total des jetons BLACK décrémenté => 17 : OK " );
-    assert.ok(engine._intersections[coord_A2.hash()].getColor() === color_black , "La couleurs du jeton est BLACK : OK ");
-    assert.ok(engine._intersections[coord_A2.hash()].getTaillePile() === 1 , "Le joueur à une pile de 1 jeton : OK ");
+    assert.ok(engine.black_piece_number() === 17, "Taille total des jetons BLACK décrémenté => 17 : OK ");
+    assert.ok(engine._intersections[coord_A2.hash()].getColor() === color_black, "La couleurs du jeton est BLACK : OK ");
+    assert.ok(engine._intersections[coord_A2.hash()].getTaillePile() === 1, "Le joueur à une pile de 1 jeton : OK ");
 
-    assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_disponible , "Le voisin de gauche de A2 est DISPONIBLE (A2 est seule) : OK ");
-    assert.ok(engine._intersections[coord_A3.hash()].getColor() === color_disponible , "Le voisin de droite de A2 est DISPONIBLE (A2 est seule) : OK ");
-    assert.ok(engine._intersections[coord_B2.hash()].getColor() === color_disponible , "Le voisin d'en haut de A2 a gauche est DISPONIBLE (A2 est seule) : OK ");
-    assert.ok(engine._intersections[coord_B3.hash()].getColor() === color_disponible , "Le voisin d'en haut de A2 à droite est DISPONIBLE (A2 est seule) : OK ");
+    assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_disponible, "Le voisin de gauche de A2 est DISPONIBLE (A2 est seule) : OK ");
+    assert.ok(engine._intersections[coord_A3.hash()].getColor() === color_disponible, "Le voisin de droite de A2 est DISPONIBLE (A2 est seule) : OK ");
+    assert.ok(engine._intersections[coord_B2.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 a gauche est DISPONIBLE (A2 est seule) : OK ");
+    assert.ok(engine._intersections[coord_B3.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 à droite est DISPONIBLE (A2 est seule) : OK ");
 
-    engine._put_piece(color_white,coord_A1);
+    engine._put_piece(color_white, coord_A1);
 
-    assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_white ,"Le voisin de gauche de A2 est WHITE ( A1 est sur le plateau : A1 A2 ) : OK " );
-    assert.ok(engine._intersections[coord_A3.hash()].getColor() === color_disponible , "Le voisin de droite de A2 est DISPONIBLE ( A1 est sur le plateau : A1 A2 ) : OK ");
-    assert.ok(engine._intersections[coord_B2.hash()].getColor() === color_disponible , "Le voisin d'en haut de A2 a gauche est DISPONIBLE ( A1 est sur le plateau : A1 A2 ) : OK ");
-    assert.ok(engine._intersections[coord_B3.hash()].getColor() === color_disponible , "Le voisin d'en haut de A2 à droite est DISPONIBLE ( A1 est sur le plateau : A1 A2 ) : OK ");
+    assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_white, "Le voisin de gauche de A2 est WHITE ( A1 est sur le plateau : A1 A2 ) : OK ");
+    assert.ok(engine._intersections[coord_A3.hash()].getColor() === color_disponible, "Le voisin de droite de A2 est DISPONIBLE ( A1 est sur le plateau : A1 A2 ) : OK ");
+    assert.ok(engine._intersections[coord_B2.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 a gauche est DISPONIBLE ( A1 est sur le plateau : A1 A2 ) : OK ");
+    assert.ok(engine._intersections[coord_B3.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 à droite est DISPONIBLE ( A1 est sur le plateau : A1 A2 ) : OK ");
 
-    assert.ok(engine.current_color() === color_black , "Le joueur courant à étais modifié => BLACK : OK");
-    assert.ok(engine.is_finished() === false , "La partie est toujours en cours : OK ");
+    assert.ok(engine.current_color() === color_black, "Le joueur courant à étais modifié => BLACK : OK");
+    assert.ok(engine.is_finished() === false, "La partie est toujours en cours : OK ");
 
-});
+  });
 
-/******************************************************************************************************************/
+  /******************************************************************************************************************/
 
-QUnit.test("ENGINE : SKIP : Je passe mon tours ! ",function (assert) {
+  QUnit.test("ENGINE : RESET : Réinitialisation du plateau. ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_A1 = new window.OpenXum.Abande.Coordinates('A',1);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
-    let coord_A3 = new window.OpenXum.Abande.Coordinates('A',3);
+
+    let color_black = window.OpenXum.Abande.Color.BLACK;
+    let color_disponible = window.OpenXum.Abande.Color.DISPONIBLE;
+
+    engine._reset();
+    for (let i = 0; i < engine._intersections.length; ++i) {
+      if (engine._intersections[i] !== undefined) {
+        assert.ok(engine._intersections[i].getColor() === color_disponible, "Toute les cases sont disponible : OK ");
+        assert.ok(engine._intersections[i].getTaillePile() === 0, "Les cases sont vident : OK ");
+      }
+    }
+    assert.ok(engine.black_piece_number() === 18, "Nombre de pièce BLACK est remis à 18 : OK");
+    assert.ok(engine.white_piece_number() === 18, "Nombre de pièce WHITE est remis à 18 : OK");
+    assert.ok(engine._current_color === color_black, "La couleur courante est BLACK : OK ");
+    assert.ok(engine._is_game_finished === false, "Ce n'est pas la fin du jeu : OK ");
+    assert.ok(engine._end_game === false, "Aucun n'a passé sont tours ");
+
+  });
+
+  /******************************************************************************************************************/
+
+  QUnit.test("ENGINE : SKIP : Je passe mon tours ! ", function (assert) {
+
+    let engine = new window.OpenXum.Abande.Engine(0);
+    let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let coord_A3 = new window.OpenXum.Abande.Coordinates('A', 3);
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
 
-    engine._put_first_piece(color_black,coord_A2);
-    engine._put_piece(color_white,coord_A1);
-    engine._put_piece(color_black,coord_A3);
-
+    engine._put_first_piece(color_black, coord_A2);
+    engine._put_piece(color_white, coord_A1);
+    engine._put_piece(color_black, coord_A3);
 
 
     engine._black_piece_number = 0;
@@ -677,73 +1004,73 @@ QUnit.test("ENGINE : SKIP : Je passe mon tours ! ",function (assert) {
 
     engine._skip(color_white);
 
-    assert.ok(engine._current_color === color_black && engine._white_piece_number === 0 && engine.is_finished() === false ,
-        "Modification du tours du joueur => Skip ! Au tour du joueur BLACK : OK ");
+    assert.ok(engine._current_color === color_black && engine._white_piece_number === 0 && engine.is_finished() === false,
+      "Modification du tours du joueur => Skip ! Au tour du joueur BLACK : OK ");
 
     engine._skip(color_black);
 
-    assert.ok(engine._black_piece_number === 0  && engine._white_piece_number === 0 && engine.is_finished() === true ,
-        "Modification du tours du joueur => Skip ! Skip !  Fin du jeu ! : OK ");
+    assert.ok(engine._black_piece_number === 0 && engine._white_piece_number === 0 && engine.is_finished() === true,
+      "Modification du tours du joueur => Skip ! Skip !  Fin du jeu ! : OK ");
 
-});
+  });
 
-/************************************************************************************************************/
+  /************************************************************************************************************/
 
-QUnit.test("ENGINE : STACK HEIGHT VERIF : Le nombre de jeton maximum d'une pile est-il 3 ?" , function (assert) {
+  QUnit.test("ENGINE : STACK HEIGHT VERIF : Le nombre de jeton maximum d'une pile est-il 3 ?", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_A1 = new window.OpenXum.Abande.Coordinates('A',1);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
-    let coord_A3 = new window.OpenXum.Abande.Coordinates('A',3);
-    let coord_B2 = new window.OpenXum.Abande.Coordinates('B',2);
-    let coord_B3 = new window.OpenXum.Abande.Coordinates('B',3);
-    let coord_C2 = new window.OpenXum.Abande.Coordinates('C',2);
-    let coord_C3 = new window.OpenXum.Abande.Coordinates('C',3);
+    let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let coord_A3 = new window.OpenXum.Abande.Coordinates('A', 3);
+    let coord_B2 = new window.OpenXum.Abande.Coordinates('B', 2);
+    let coord_B3 = new window.OpenXum.Abande.Coordinates('B', 3);
+    let coord_C2 = new window.OpenXum.Abande.Coordinates('C', 2);
+    let coord_C3 = new window.OpenXum.Abande.Coordinates('C', 3);
 
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
 
-    engine._put_first_piece(color_black,coord_A2);
-    engine._put_piece(color_white,coord_A1);
-    engine._put_piece(color_black,coord_A3);
-    engine._put_piece(color_white,coord_B2);
-    engine._put_piece(color_black,coord_B3);
-    engine._put_piece(color_white,coord_C3);
+    engine._put_first_piece(color_black, coord_A2);
+    engine._put_piece(color_white, coord_A1);
+    engine._put_piece(color_black, coord_A3);
+    engine._put_piece(color_white, coord_B2);
+    engine._put_piece(color_black, coord_B3);
+    engine._put_piece(color_white, coord_C3);
 
-    engine._capture_piece(color_black,coord_A2,coord_B2);
-    assert.ok(engine._Stack_height_verif(coord_A2,coord_B2) === true , "Nombre pile 2 : OK ");
-    engine._capture_piece(color_white,coord_A1,coord_B2);
-    assert.ok(engine._Stack_height_verif(coord_A2,coord_B2) === true , "Nombre pile 3 : OK ");
-    engine._put_piece(color_black,coord_A2);
-    engine._put_piece(color_white,coord_C2);
-   assert.ok(engine._Stack_height_verif(coord_A2,coord_B2) === false , "Nombre pile supperrieur à 3 : OK");
+    engine._capture_piece(color_black, coord_A2, coord_B2);
+    assert.ok(engine._Stack_height_verif(coord_A2, coord_B2) === true, "Nombre pile 2 : OK ");
+    engine._capture_piece(color_white, coord_A1, coord_B2);
+    assert.ok(engine._Stack_height_verif(coord_A2, coord_B2) === true, "Nombre pile 3 : OK ");
+    engine._put_piece(color_black, coord_A2);
+    engine._put_piece(color_white, coord_C2);
+    assert.ok(engine._Stack_height_verif(coord_A2, coord_B2) === false, "Nombre pile supperrieur à 3 : OK");
 
-});
+  });
 
-/************************************************************************************************************/
+  /************************************************************************************************************/
 
-QUnit.test("ENGINE : WHITE PIECE NUMBER : Le joueur blanc possèdent t-il 18 jetons ? ",function (assert) {
+  QUnit.test("ENGINE : WHITE PIECE NUMBER : Le joueur blanc possèdent t-il 18 jetons ? ", function (assert) {
     let engine = new window.OpenXum.Abande.Engine(0);
     assert.ok(engine.white_piece_number() === 18, "TRUE")
-});
+  });
 
-/************************************************************************************************************/
+  /************************************************************************************************************/
 
-QUnit.test("ENGINE : WINNER IS : Qui est le gagant ? ",function (assert) {
+  QUnit.test("ENGINE : WINNER IS : Qui est le gagant ? ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
-    let coord_A1 = new window.OpenXum.Abande.Coordinates('A',1);
-    let coord_A2 = new window.OpenXum.Abande.Coordinates('A',2);
-    let coord_A3 = new window.OpenXum.Abande.Coordinates('A',3);
-    let coord_B2 = new window.OpenXum.Abande.Coordinates('B',2);
+    let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
+    let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
+    let coord_A3 = new window.OpenXum.Abande.Coordinates('A', 3);
+    let coord_B2 = new window.OpenXum.Abande.Coordinates('B', 2);
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
 
-    engine._put_first_piece(color_black,coord_A2);
-    engine._put_piece(color_white,coord_A1);
-    engine._put_piece(color_black,coord_B2);
+    engine._put_first_piece(color_black, coord_A2);
+    engine._put_piece(color_white, coord_A1);
+    engine._put_piece(color_black, coord_B2);
 
     engine._is_game_finished = true;
 
@@ -751,50 +1078,16 @@ QUnit.test("ENGINE : WINNER IS : Qui est le gagant ? ",function (assert) {
 
     engine._reset();
 
-    engine._put_first_piece(color_black,coord_A2);
-    engine._put_piece(color_white,coord_A1);
-    engine._put_piece(color_black,coord_A3);
-    engine._put_piece(color_white,coord_B2);
+    engine._put_first_piece(color_black, coord_A2);
+    engine._put_piece(color_white, coord_A1);
+    engine._put_piece(color_black, coord_A3);
+    engine._put_piece(color_white, coord_B2);
 
     engine._is_game_finished = true;
 
     assert.ok(engine.winner_is() === color_white, "Le gagant est le joueur WHITE");
 
-});
-
-/*******************************************************************************************************************/
-
-
-
-
-
-/*
-QUnit.test("ENGINE : ALL AT NONE : Sont-ils tous à None ? ",function (assert) {
-
-    let engine = new window.OpenXum.Abande.Engine(0);
-
-    engine._all_at_none();
-
-    for(let i=0;i<engine._intersections.length;i++)
-    {
-        assert.ok(engine._intersections[i].getColor() === -1 , "jshdfkjsh");
-        console.log(engine._intersections[i].getColor());
-    }
-
-});
-*/
-
-
-/*********************************************************************************************************************/
-
-/*
-Qunit.test("",function (assert) {
-    assert.ok(, "TRUE")
-});
-
-Qunit.test("",function (assert) {
-    assert.ok(, "TRUE")
-});*/
+  });
 
 </script>
 
