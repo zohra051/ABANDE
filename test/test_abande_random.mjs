@@ -8,7 +8,7 @@ let moves = [];
 
 while (!e.is_finished()) {
   let move = p.move();
-
+  //console.log(move);
   moves.push(move);
   e.move(move);
   p = p === p1 ? p2 : p1;
