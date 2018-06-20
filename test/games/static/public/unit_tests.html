@@ -608,108 +608,74 @@
     assert.ok(liste[0]._type === capture &&
       liste[0]._color === color_white &&
       liste[0]._from.letter() === 'A' &&
-      liste[0]._from.number() === 0 &&
+      liste[0]._from.number() === 1 &&
       liste[0]._to.letter() === 'A' &&
-      liste[0]._to.number() === 1, "1ere mouvement possible valide : OK");
+      liste[0]._to.number() === 2, "1ere mouvement possible valide : OK");
     assert.ok(liste[1]._type === capture &&
       liste[1]._color === color_white &&
       liste[1]._from.letter() === 'A' &&
-      liste[1]._from.number() === 0 &&
+      liste[1]._from.number() === 1 &&
       liste[1]._to.letter() === 'B' &&
-      liste[1]._to.number() === 1, "2eme mouvement possible valide : OK");
+      liste[1]._to.number() === 2, "2eme mouvement possible valide : OK");
     assert.ok(liste[2]._type === put &&
       liste[2]._color === color_white &&
       liste[2]._coordinates.letter() === 'B' &&
-      liste[2]._coordinates.number() === 0, "3eme mouvement possible valide : OK");
+      liste[2]._coordinates.number() === 1, "3eme mouvement possible valide : OK");
     assert.ok(liste[3]._type === put &&
       liste[3]._color === color_white &&
       liste[3]._coordinates.letter() === 'C' &&
-      liste[3]._coordinates.number() === 1, "4eme mouvement possible valide : OK");
+      liste[3]._coordinates.number() === 2, "4eme mouvement possible valide : OK");
     assert.ok(liste[4]._type === put &&
       liste[4]._color === color_white &&
       liste[4]._coordinates.letter() === 'B' &&
-      liste[4]._coordinates.number() === 2, "5eme mouvement possible valide : OK");
+      liste[4]._coordinates.number() === 3, "5eme mouvement possible valide : OK");
     assert.ok(liste[5]._type === put &&
       liste[5]._color === color_white &&
       liste[5]._coordinates.letter() === 'C' &&
-      liste[5]._coordinates.number() === 2, "6eme mouvement possible valide : OK");
+      liste[5]._coordinates.number() === 3, "6eme mouvement possible valide : OK");
     assert.ok(liste[6]._type === put &&
       liste[6]._color === color_white &&
       liste[6]._coordinates.letter() === 'A' &&
-      liste[6]._coordinates.number() === 3, "7eme mouvement possible valide : OK");
+      liste[6]._coordinates.number() === 4, "7eme mouvement possible valide : OK");
     assert.ok(liste[7]._type === capture &&
       liste[7]._color === color_white &&
       liste[7]._from.letter() === 'B' &&
-      liste[7]._from.number() === 3 &&
+      liste[7]._from.number() === 4 &&
       liste[7]._to.letter() === 'A' &&
-      liste[7]._to.number() === 2, "8eme mouvement possible valide : OK");
+      liste[7]._to.number() === 3, "8eme mouvement possible valide : OK");
     assert.ok(liste[8]._type === put &&
       liste[8]._color === color_white &&
       liste[8]._coordinates.letter() === 'C' &&
-      liste[8]._coordinates.number() === 3, "9eme mouvement possible valide : OK");
+      liste[8]._coordinates.number() === 4, "9eme mouvement possible valide : OK");
     assert.ok(liste[9]._type === put &&
       liste[9]._color === color_white &&
       liste[9]._coordinates.letter() === 'B' &&
-      liste[9]._coordinates.number() === 4, "10eme mouvement possible valide : OK");
+      liste[9]._coordinates.number() === 5, "10eme mouvement possible valide : OK");
     assert.ok(liste[10]._type === put &&
       liste[10]._color === color_white &&
       liste[10]._coordinates.letter() === 'C' &&
-      liste[10]._coordinates.number() === 4, "11eme mouvement possible valide : OK");
+      liste[10]._coordinates.number() === 5, "11eme mouvement possible valide : OK");
 
     engine._white_piece_number = 0;
     let liste2 = engine.get_possible_move_list();
     assert.ok(liste2[0]._type === capture &&
       liste2[0]._color === color_white &&
       liste2[0]._from.letter() === 'A' &&
-      liste2[0]._from.number() === 0 &&
+      liste2[0]._from.number() === 1 &&
       liste2[0]._to.letter() === 'A' &&
-      liste2[0]._to.number() === 1, "1ere mouvement possible valide : OK");
+      liste2[0]._to.number() === 2, "1ere mouvement possible valide : OK");
     assert.ok(liste2[1]._type === capture &&
       liste2[1]._color === color_white &&
       liste2[1]._from.letter() === 'A' &&
-      liste2[1]._from.number() === 0 &&
+      liste2[1]._from.number() === 1 &&
       liste2[1]._to.letter() === 'B' &&
-      liste2[1]._to.number() === 1, "2eme mouvement possible valide : OK");
-    assert.ok(liste2[2]._type === put &&
+      liste2[1]._to.number() === 2, "2eme mouvement possible valide : OK");
+    assert.ok(liste2[2]._type === capture &&
       liste2[2]._color === color_white &&
-      liste2[2]._coordinates.letter() === 'B' &&
-      liste2[2]._coordinates.number() === 0, "3eme mouvement possible valide : OK");
-    assert.ok(liste2[3]._type === put &&
-      liste2[3]._color === color_white &&
-      liste2[3]._coordinates.letter() === 'C' &&
-      liste2[3]._coordinates.number() === 1, "4eme mouvement possible valide : OK");
-    assert.ok(liste2[4]._type === put &&
-      liste2[4]._color === color_white &&
-      liste2[4]._coordinates.letter() === 'B' &&
-      liste2[4]._coordinates.number() === 2, "5eme mouvement possible valide : OK");
-    assert.ok(liste2[5]._type === put &&
-      liste2[5]._color === color_white &&
-      liste2[5]._coordinates.letter() === 'C' &&
-      liste2[5]._coordinates.number() === 2, "6eme mouvement possible valide : OK");
-    assert.ok(liste2[6]._type === put &&
-      liste2[6]._color === color_white &&
-      liste2[6]._coordinates.letter() === 'A' &&
-      liste2[6]._coordinates.number() === 3, "7eme mouvement possible valide : OK");
-    assert.ok(liste2[7]._type === capture &&
-      liste2[7]._color === color_white &&
-      liste2[7]._from.letter() === 'B' &&
-      liste2[7]._from.number() === 3 &&
-      liste2[7]._to.letter() === 'A' &&
-      liste2[7]._to.number() === 2, "8eme mouvement possible valide : OK");
-    assert.ok(liste2[8]._type === put &&
-      liste2[8]._color === color_white &&
-      liste2[8]._coordinates.letter() === 'C' &&
-      liste2[8]._coordinates.number() === 3, "9eme mouvement possible valide : OK");
-    assert.ok(liste2[9]._type === put &&
-      liste2[9]._color === color_white &&
-      liste2[9]._coordinates.letter() === 'B' &&
-      liste2[9]._coordinates.number() === 4, "10eme mouvement possible valide : OK");
-    assert.ok(liste2[10]._type === put &&
-      liste2[10]._color === color_white &&
-      liste2[10]._coordinates.letter() === 'C' &&
-      liste2[10]._coordinates.number() === 4, "11eme mouvement possible valide : OK");
-    assert.ok(liste2[11]._type === skip &&
-      liste2[11]._color === color_white, "12eme mouvement possible valide : OK");
+      liste2[2]._from.letter() === 'B' &&
+      liste2[2]._from.number() === 4 &&
+      liste2[2]._to.letter() === 'A' &&
+      liste2[2]._to.number() === 3, "3eme mouvement possible valide : OK");
 
   });
 
