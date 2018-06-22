@@ -86,8 +86,8 @@
     let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
     let intersection = new window.OpenXum.Abande.Intersection(coord_A2);
 
-    console.log(intersection.getTaillePile());
-    assert.ok(intersection.getTaillePile() === 0, "Taille de la pile validé : OK ");
+    console.log(intersection.getStackHeight());
+    assert.ok(intersection.getStackHeight() === 0, "Taille de la pile validé : OK ");
   });
 
   /*****************************************************************************************************************/
@@ -113,8 +113,8 @@
     let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
     let intersection = new window.OpenXum.Abande.Intersection(coord_A2);
 
-    intersection.setTaillePile(2);
-    assert.ok(intersection.getTaillePile() === 2, "Modification validé : OK ");
+    intersection.setStackHeight(2);
+    assert.ok(intersection.getStackHeight() === 2, "Modification validé : OK ");
 
   });
 
@@ -125,9 +125,9 @@
     let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
     let intersection = new window.OpenXum.Abande.Intersection(coord_A2);
 
-    intersection.taillePileZero();
+    intersection.stackHeightIncrement();
 
-    assert.ok(intersection.getTaillePile() === 0, "Mise à zéro validé : OK ");
+    assert.ok(intersection.getStackHeight() === 0, "Mise à zéro validé : OK ");
 
   });
 
@@ -138,11 +138,11 @@
     let coord_A2 = new window.OpenXum.Abande.Coordinates('A', 2);
     let intersection = new window.OpenXum.Abande.Intersection(coord_A2);
 
-    intersection.taillePlus();
-    intersection.taillePlus();
-    intersection.taillePlus();
-    intersection.taillePlus();
-    assert.ok(intersection.getTaillePile() === 4, "Incrémentation validé : OK ");
+    intersection.stackHeightIncrement();
+    intersection.stackHeightIncrement();
+    intersection.stackHeightIncrement();
+    intersection.stackHeightIncrement();
+    assert.ok(intersection.getStackHeight() === 4, "Incrémentation validé : OK ");
 
   });
 
@@ -322,16 +322,16 @@
 
     engine._capture_piece(color_white, coord_B4, coord_A3);
 
-    assert.ok(engine._intersections[coord_B4.hash()].getTaillePile() === 0, "La taille de pile de FROM est à 1 : OK ");
-    assert.ok(engine._intersections[coord_A3.hash()].getTaillePile() === 2, "La taille de pile de TO est à 2 : OK ");
-    assert.ok(engine._intersections[coord_B4.hash()].getColor() === 2, "La couleur de départ B4 est DISPONIBLE : OK ");
+    assert.ok(engine._intersections[coord_B4.hash()].getStackHeight() === 0, "La taille de pile de FROM est à 1 : OK ");
+    assert.ok(engine._intersections[coord_A3.hash()].getStackHeight() === 2, "La taille de pile de TO est à 2 : OK ");
+    assert.ok(engine._intersections[coord_B4.hash()].getColor() === 2, "La couleur de départ B4 est AVAILABLE : OK ");
     assert.ok(engine._intersections[coord_A3.hash()].getColor() === color_white, "La couleur d'arrivé A3 est WHITE : OK ");
 
-    assert.ok(engine._intersections[coord_C4.hash()].getColor() === -1, "La case en haut à gauche de B4 précédement DISPONIBLE est à NONE : OK");
-    assert.ok(engine._intersections[coord_C5.hash()].getColor() === -1, "La case en haut à droite de B4 précédement DISPONIBLE est à NONE : OK");
-    assert.ok(engine._intersections[coord_B5.hash()].getColor() === -1, "La case à droite de B4 précédement DISPONIBLE est à NONE : OK");
-    assert.ok(engine._intersections[coord_B3.hash()].getColor() === 2, "La case à gauche de B4 précédement DISPONIBLE reste à DISPONIBLE : OK");
-    assert.ok(engine._intersections[coord_A4.hash()].getColor() === 2, "La case en bas à droite de B4 précédement DISPONIBLE reste à DISPONIBLE : OK");
+    assert.ok(engine._intersections[coord_C4.hash()].getColor() === -1, "La case en haut à gauche de B4 précédement AVAILABLE est à NONE : OK");
+    assert.ok(engine._intersections[coord_C5.hash()].getColor() === -1, "La case en haut à droite de B4 précédement AVAILABLE est à NONE : OK");
+    assert.ok(engine._intersections[coord_B5.hash()].getColor() === -1, "La case à droite de B4 précédement AVAILABLE est à NONE : OK");
+    assert.ok(engine._intersections[coord_B3.hash()].getColor() === 2, "La case à gauche de B4 précédement AVAILABLE reste à AVAILABLE : OK");
+    assert.ok(engine._intersections[coord_A4.hash()].getColor() === 2, "La case en bas à droite de B4 précédement AVAILABLE reste à AVAILABLE : OK");
 
     assert.ok(engine.current_color() === color_black, "Le joueur courant à étais modifié => BLACK : OK");
     assert.ok(engine.is_finished() === false, "La partie est toujours en cours : OK ");
@@ -353,7 +353,7 @@
 
 
   /******************************************************************************************************************/
-  QUnit.test("ENGINE : CHANGE OLD AVAILABLE : Toutes les anciennes coordonnées Disponible ont étais réinitialisé ?  ", function (assert) {
+  QUnit.test("ENGINE : CHANGE OLD AVAILABLE : Toutes les anciennes coordonnées AVAILABLE ont étais réinitialisé ?  ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
     let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
@@ -377,11 +377,11 @@
 
     engine._capture_piece(color_white, coord_B4, coord_A3);
 
-    assert.ok(engine._intersections[coord_C4.hash()].getColor() === -1, "La case en haut à gauche de B4 précédement DISPONIBLE est à NONE : OK");
-    assert.ok(engine._intersections[coord_C5.hash()].getColor() === -1, "La case en haut à droite de B4 précédement DISPONIBLE est à NONE : OK");
-    assert.ok(engine._intersections[coord_B5.hash()].getColor() === -1, "La case à droite de B4 précédement DISPONIBLE est à NONE : OK");
-    assert.ok(engine._intersections[coord_B3.hash()].getColor() === 2, "La case à gauche de B4 précédement DISPONIBLE reste à DISPONIBLE : OK");
-    assert.ok(engine._intersections[coord_A4.hash()].getColor() === 2, "La case en bas à droite de B4 précédement DISPONIBLE reste à DISPONIBLE : OK");
+    assert.ok(engine._intersections[coord_C4.hash()].getColor() === -1, "La case en haut à gauche de B4 précédement AVAILABLE est à NONE : OK");
+    assert.ok(engine._intersections[coord_C5.hash()].getColor() === -1, "La case en haut à droite de B4 précédement AVAILABLE est à NONE : OK");
+    assert.ok(engine._intersections[coord_B5.hash()].getColor() === -1, "La case à droite de B4 précédement AVAILABLE est à NONE : OK");
+    assert.ok(engine._intersections[coord_B3.hash()].getColor() === 2, "La case à gauche de B4 précédement AVAILABLE reste à AVAILABLE : OK");
+    assert.ok(engine._intersections[coord_A4.hash()].getColor() === 2, "La case en bas à droite de B4 précédement AVAILABLE reste à AVAILABLE : OK");
 
   });
 
@@ -428,14 +428,14 @@
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
-    let color_disponible = window.OpenXum.Abande.Color.DISPONIBLE;
+    let color_disponible = window.OpenXum.Abande.Color.AVAILABLE;
     let color_none = window.OpenXum.Abande.Color.NONE;
 
     assert.ok(engine.current_color() === color_black, "BLACK est le joueur courant :OK ");
     engine._current_color = color_white;
     assert.ok(engine.current_color() === color_white, "WHITE est le joueur courant : OK ");
     engine._current_color = color_disponible;
-    assert.ok(engine.current_color() === color_disponible, "DISPONIBLE est le joueur courant : OK ");
+    assert.ok(engine.current_color() === color_disponible, "AVAILABLE est le joueur courant : OK ");
     engine._current_color = color_none;
     assert.ok(engine.current_color() === color_none, "NONE est le joueur courant : OK ")
 
@@ -480,7 +480,7 @@
     engine._put_piece(color_black, coord_B4);
     engine._put_piece(color_white, coord_C2);
 
-    engine._dormant();
+    engine._sleeping();
 
     assert.ok(engine._intersections[coord_C2.hash()].getColor() === -1 &&
       engine._intersections[coord_B4.hash()].getColor() === -1 &&
@@ -740,7 +740,7 @@
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
-    let color_disponible = window.OpenXum.Abande.Color.DISPONIBLE;
+    let color_disponible = window.OpenXum.Abande.Color.AVAILABLE;
 
     let put_first = window.OpenXum.Abande.Phase.PUT_FIRST_PIECE;
     let capture = window.OpenXum.Abande.Phase.CAPTURE_PIECE;
@@ -768,7 +768,7 @@
 
   /*****************************************************************************************************************/
 
-  QUnit.test("ENGINE : NEIGHBOOR DISPO : Quels sont les voisins disponible ? ", function (assert) {
+  QUnit.test("ENGINE : NEIGHBOOR DISPO : Quels sont les voisins AVAILABLE ? ", function (assert) {
 
     let engine = new window.OpenXum.Abande.Engine(0);
     let coord_A1 = new window.OpenXum.Abande.Coordinates('A', 1);
@@ -779,7 +779,7 @@
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
-    let color_disponible = window.OpenXum.Abande.Color.DISPONIBLE;
+    let color_disponible = window.OpenXum.Abande.Color.AVAILABLE;
 
     engine._put_first_piece(color_black, coord_A2);
 
@@ -856,7 +856,7 @@
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
-    let color_disponible = window.OpenXum.Abande.Color.DISPONIBLE;
+    let color_disponible = window.OpenXum.Abande.Color.AVAILABLE;
 
     engine._all_at_none();
     for (let i = 0; i < engine._intersections.length; i++) {
@@ -868,19 +868,19 @@
 
     assert.ok(engine.black_piece_number() === 17, "Taille total des jetons BLACK décrémenté => 17 : OK ");
     assert.ok(engine._intersections[coord_A2.hash()].getColor() === color_black, "La couleurs du jeton est BLACK : OK ");
-    assert.ok(engine._intersections[coord_A2.hash()].getTaillePile() === 1, "Le joueur à une pile de 1 jeton : OK ");
+    assert.ok(engine._intersections[coord_A2.hash()].getStackHeight() === 1, "Le joueur à une pile de 1 jeton : OK ");
 
-    assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_disponible, "Le voisin de gauche de A2 est DISPONIBLE (A2 est seule) : OK ");
-    assert.ok(engine._intersections[coord_A3.hash()].getColor() === color_disponible, "Le voisin de droite de A2 est DISPONIBLE (A2 est seule) : OK ");
-    assert.ok(engine._intersections[coord_B2.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 a gauche est DISPONIBLE (A2 est seule) : OK ");
-    assert.ok(engine._intersections[coord_B3.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 à droite est DISPONIBLE (A2 est seule) : OK ");
+    assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_disponible, "Le voisin de gauche de A2 est AVAILABLE (A2 est seule) : OK ");
+    assert.ok(engine._intersections[coord_A3.hash()].getColor() === color_disponible, "Le voisin de droite de A2 est AVAILABLE (A2 est seule) : OK ");
+    assert.ok(engine._intersections[coord_B2.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 a gauche est AVAILABLE (A2 est seule) : OK ");
+    assert.ok(engine._intersections[coord_B3.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 à droite est AVAILABLE (A2 est seule) : OK ");
 
     engine._put_piece(color_white, coord_A1);
 
     assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_white, "Le voisin de gauche de A2 est WHITE ( A1 est sur le plateau : A1 A2 ) : OK ");
-    assert.ok(engine._intersections[coord_A3.hash()].getColor() === color_disponible, "Le voisin de droite de A2 est DISPONIBLE ( A1 est sur le plateau : A1 A2 ) : OK ");
-    assert.ok(engine._intersections[coord_B2.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 a gauche est DISPONIBLE ( A1 est sur le plateau : A1 A2 ) : OK ");
-    assert.ok(engine._intersections[coord_B3.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 à droite est DISPONIBLE ( A1 est sur le plateau : A1 A2 ) : OK ");
+    assert.ok(engine._intersections[coord_A3.hash()].getColor() === color_disponible, "Le voisin de droite de A2 est AVAILABLE ( A1 est sur le plateau : A1 A2 ) : OK ");
+    assert.ok(engine._intersections[coord_B2.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 a gauche est AVAILABLE ( A1 est sur le plateau : A1 A2 ) : OK ");
+    assert.ok(engine._intersections[coord_B3.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 à droite est AVAILABLE ( A1 est sur le plateau : A1 A2 ) : OK ");
 
     assert.ok(engine.current_color() === color_black, "Le joueur courant à étais modifié => BLACK : OK");
 
@@ -899,25 +899,25 @@
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
     let color_white = window.OpenXum.Abande.Color.WHITE;
-    let color_disponible = window.OpenXum.Abande.Color.DISPONIBLE;
+    let color_disponible = window.OpenXum.Abande.Color.AVAILABLE;
 
     engine._put_piece(color_black, coord_A2);
 
     assert.ok(engine.black_piece_number() === 17, "Taille total des jetons BLACK décrémenté => 17 : OK ");
     assert.ok(engine._intersections[coord_A2.hash()].getColor() === color_black, "La couleurs du jeton est BLACK : OK ");
-    assert.ok(engine._intersections[coord_A2.hash()].getTaillePile() === 1, "Le joueur à une pile de 1 jeton : OK ");
+    assert.ok(engine._intersections[coord_A2.hash()].getStackHeight() === 1, "Le joueur à une pile de 1 jeton : OK ");
 
-    assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_disponible, "Le voisin de gauche de A2 est DISPONIBLE (A2 est seule) : OK ");
-    assert.ok(engine._intersections[coord_A3.hash()].getColor() === color_disponible, "Le voisin de droite de A2 est DISPONIBLE (A2 est seule) : OK ");
-    assert.ok(engine._intersections[coord_B2.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 a gauche est DISPONIBLE (A2 est seule) : OK ");
-    assert.ok(engine._intersections[coord_B3.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 à droite est DISPONIBLE (A2 est seule) : OK ");
+    assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_disponible, "Le voisin de gauche de A2 est AVAILABLE (A2 est seule) : OK ");
+    assert.ok(engine._intersections[coord_A3.hash()].getColor() === color_disponible, "Le voisin de droite de A2 est AVAILABLE (A2 est seule) : OK ");
+    assert.ok(engine._intersections[coord_B2.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 a gauche est AVAILABLE (A2 est seule) : OK ");
+    assert.ok(engine._intersections[coord_B3.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 à droite est AVAILABLE (A2 est seule) : OK ");
 
     engine._put_piece(color_white, coord_A1);
 
     assert.ok(engine._intersections[coord_A1.hash()].getColor() === color_white, "Le voisin de gauche de A2 est WHITE ( A1 est sur le plateau : A1 A2 ) : OK ");
-    assert.ok(engine._intersections[coord_A3.hash()].getColor() === color_disponible, "Le voisin de droite de A2 est DISPONIBLE ( A1 est sur le plateau : A1 A2 ) : OK ");
-    assert.ok(engine._intersections[coord_B2.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 a gauche est DISPONIBLE ( A1 est sur le plateau : A1 A2 ) : OK ");
-    assert.ok(engine._intersections[coord_B3.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 à droite est DISPONIBLE ( A1 est sur le plateau : A1 A2 ) : OK ");
+    assert.ok(engine._intersections[coord_A3.hash()].getColor() === color_disponible, "Le voisin de droite de A2 est AVAILABLE ( A1 est sur le plateau : A1 A2 ) : OK ");
+    assert.ok(engine._intersections[coord_B2.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 a gauche est AVAILABLE ( A1 est sur le plateau : A1 A2 ) : OK ");
+    assert.ok(engine._intersections[coord_B3.hash()].getColor() === color_disponible, "Le voisin d'en haut de A2 à droite est AVAILABLE ( A1 est sur le plateau : A1 A2 ) : OK ");
 
     assert.ok(engine.current_color() === color_black, "Le joueur courant à étais modifié => BLACK : OK");
     assert.ok(engine.is_finished() === false, "La partie est toujours en cours : OK ");
@@ -931,20 +931,20 @@
     let engine = new window.OpenXum.Abande.Engine(0);
 
     let color_black = window.OpenXum.Abande.Color.BLACK;
-    let color_disponible = window.OpenXum.Abande.Color.DISPONIBLE;
+    let color_disponible = window.OpenXum.Abande.Color.AVAILABLE;
 
     engine._reset();
     for (let i = 0; i < engine._intersections.length; ++i) {
       if (engine._intersections[i] !== undefined) {
-        assert.ok(engine._intersections[i].getColor() === color_disponible, "Toute les cases sont disponible : OK ");
-        assert.ok(engine._intersections[i].getTaillePile() === 0, "Les cases sont vident : OK ");
+        assert.ok(engine._intersections[i].getColor() === color_disponible, "Toute les cases sont AVAILABLE : OK ");
+        assert.ok(engine._intersections[i].getStackHeight() === 0, "Les cases sont vident : OK ");
       }
     }
     assert.ok(engine.black_piece_number() === 18, "Nombre de pièce BLACK est remis à 18 : OK");
     assert.ok(engine.white_piece_number() === 18, "Nombre de pièce WHITE est remis à 18 : OK");
     assert.ok(engine._current_color === color_black, "La couleur courante est BLACK : OK ");
     assert.ok(engine._is_game_finished === false, "Ce n'est pas la fin du jeu : OK ");
-    assert.ok(engine._end_game === false, "Aucun n'a passé sont tours ");
+    assert.ok(engine._has_skipped === false, "Aucun n'a passé sont tours ");
 
   });
 
